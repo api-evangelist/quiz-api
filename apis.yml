@@ -1,6 +1,7 @@
 aid: quiz-api
 name: Quiz API
-description: 'Test your knowledge or easily embed a quiz on your website with the Quiz API '
+description: >-
+  Test your knowledge or easily embed a quiz on your website with the Quiz API.
 type: Index
 position: Consumer
 access: 3rd-Party
@@ -16,8 +17,7 @@ apis:
   - aid: quiz-api:quiz-api
     name: Quiz API
     description: >-
-      Test your knowledge or easily embed a quiz on your website with the Quiz
-      API 
+      Test your knowledge or easily embed a quiz on your website with the Quiz API.
     humanURL: ' https://quizapi.io/'
     tags:
       - API
