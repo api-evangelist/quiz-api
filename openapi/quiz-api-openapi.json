@@ -1,0 +1,1761 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "QuizAPI",
+    "version": "1.0.0",
+    "description": "Access thousands of quiz questions across programming, science, and more. Browse by category, difficulty, and tags.",
+    "contact": {
+      "name": "QuizAPI Support",
+      "url": "https://quizapi.io"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://quizapi.io",
+      "description": "Production"
+    }
+  ],
+  "security": [],
+  "tags": [
+    {
+      "name": "Discovery",
+      "description": "Endpoints that require no authentication"
+    },
+    {
+      "name": "Quizzes",
+      "description": "Browse and search published quizzes"
+    },
+    {
+      "name": "Questions",
+      "description": "Retrieve questions for quizzes or browse across all quizzes"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Pass your API key as a Bearer token: `Authorization: Bearer qza_live_...`. Alternatively, use the `api_key` query parameter."
+      }
+    },
+    "schemas": {
+      "Difficulty": {
+        "type": "string",
+        "enum": [
+          "EASY",
+          "MEDIUM",
+          "HARD",
+          "EXPERT"
+        ],
+        "description": "Difficulty level of a quiz or question"
+      },
+      "QuestionType": {
+        "type": "string",
+        "enum": [
+          "MULTIPLE_CHOICE",
+          "TRUE_FALSE",
+          "OPEN_ENDED"
+        ],
+        "description": "The type of question"
+      },
+      "Answer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "ans_abc123"
+          },
+          "text": {
+            "type": "string",
+            "example": "42"
+          },
+          "isCorrect": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": [
+          "id",
+          "text",
+          "isCorrect"
+        ],
+        "description": "An answer option for a question"
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
+          },
+          "error": {
+            "type": "string",
+            "example": "Something went wrong."
+          }
+        },
+        "required": [
+          "success",
+          "error"
+        ],
+        "description": "Standard error response"
+      },
+      "PaginationLinks": {
+        "type": "object",
+        "properties": {
+          "first": {
+            "type": "string",
+            "example": "/api/v1/questions?offset=0&limit=10"
+          },
+          "last": {
+            "type": "string",
+            "example": "/api/v1/questions?offset=20&limit=10"
+          },
+          "next": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "/api/v1/questions?offset=10&limit=10"
+          },
+          "prev": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "first",
+          "last",
+          "next",
+          "prev"
+        ],
+        "description": "Navigation links for pagination"
+      },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "description": "Total matching results across all pages",
+            "example": 23
+          },
+          "pageTotal": {
+            "type": "integer",
+            "description": "Number of results in this page",
+            "example": 10
+          },
+          "page": {
+            "type": "integer",
+            "description": "Current page number (1-based)",
+            "example": 1
+          },
+          "lastPage": {
+            "type": "integer",
+            "description": "Total number of pages",
+            "example": 3
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Results per page",
+            "example": 10
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Number of results skipped",
+            "example": 0
+          },
+          "links": {
+            "$ref": "#/components/schemas/PaginationLinks"
+          }
+        },
+        "required": [
+          "total",
+          "pageTotal",
+          "page",
+          "lastPage",
+          "limit",
+          "offset",
+          "links"
+        ],
+        "description": "Pagination metadata included in browse responses"
+      },
+      "MetadataResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "difficulties": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Difficulty"
+                },
+                "example": [
+                  "EASY",
+                  "MEDIUM",
+                  "HARD",
+                  "EXPERT"
+                ]
+              },
+              "questionTypes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/QuestionType"
+                },
+                "example": [
+                  "MULTIPLE_CHOICE",
+                  "TRUE_FALSE",
+                  "OPEN_ENDED"
+                ]
+              },
+              "categories": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "Programming",
+                  "DevOps",
+                  "Science"
+                ]
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "example": [
+                  "javascript",
+                  "python",
+                  "docker"
+                ]
+              },
+              "stats": {
+                "type": "object",
+                "properties": {
+                  "totalQuizzes": {
+                    "type": "integer",
+                    "example": 150
+                  },
+                  "totalQuestions": {
+                    "type": "integer",
+                    "example": 3200
+                  }
+                },
+                "required": [
+                  "totalQuizzes",
+                  "totalQuestions"
+                ]
+              }
+            },
+            "required": [
+              "difficulties",
+              "questionTypes",
+              "categories",
+              "tags",
+              "stats"
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "CategoryItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cm3cat789"
+          },
+          "name": {
+            "type": "string",
+            "example": "Python"
+          },
+          "slug": {
+            "type": "string",
+            "example": "python"
+          },
+          "quizCount": {
+            "type": "integer",
+            "example": 12
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 20,
+            "example": [
+              "python",
+              "basics",
+              "data-structures"
+            ],
+            "description": "Popular tags used in quizzes within this category (maximum 20 tags)"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "quizCount",
+          "tags"
+        ],
+        "description": "A category within a topic"
+      },
+      "TopicItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cm3topic123"
+          },
+          "name": {
+            "type": "string",
+            "example": "Programming"
+          },
+          "slug": {
+            "type": "string",
+            "example": "programming"
+          },
+          "icon": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "code"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryItem"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "icon",
+          "categories"
+        ],
+        "description": "A top-level topic containing categories"
+      },
+      "CategoriesResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TopicItem"
+            }
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ]
+      },
+      "QuizListItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cm3abc123def456"
+          },
+          "title": {
+            "type": "string",
+            "example": "JavaScript Fundamentals"
+          },
+          "description": {
+            "type": "string",
+            "example": "Test your JS knowledge"
+          },
+          "category": {
+            "type": "string",
+            "example": "Programming"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "javascript",
+              "web"
+            ]
+          },
+          "questionCount": {
+            "type": "integer",
+            "example": 10
+          },
+          "plays": {
+            "type": "integer",
+            "example": 1250
+          },
+          "slug": {
+            "type": "string",
+            "example": "javascript-fundamentals"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "category",
+          "difficulty",
+          "tags",
+          "questionCount",
+          "plays",
+          "slug"
+        ],
+        "description": "A quiz summary returned in list endpoints"
+      },
+      "CreateQuizRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "example": "Python Basics"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 2000,
+            "example": "Learn Python fundamentals."
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 100,
+            "example": "Programming"
+          },
+          "categoryId": {
+            "type": "string",
+            "description": "Category ID (preferred over flat category string)",
+            "example": "cat_python"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "maxItems": 20,
+            "example": [
+              "python",
+              "basics"
+            ]
+          },
+          "published": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the quiz is publicly visible"
+          },
+          "featured": {
+            "type": "boolean",
+            "default": false,
+            "description": "Admin-only. Mark as featured in the Practice section. Ignored for non-admin users."
+          }
+        },
+        "required": [
+          "title",
+          "difficulty"
+        ],
+        "description": "Request body for creating a quiz via the API"
+      },
+      "CreatedQuiz": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cm3abc123def456"
+          },
+          "title": {
+            "type": "string",
+            "example": "Python Basics"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Learn Python fundamentals."
+          },
+          "category": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Programming"
+          },
+          "categoryId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "cat_python"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "python",
+              "basics"
+            ]
+          },
+          "published": {
+            "type": "boolean",
+            "example": true
+          },
+          "featured": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "category",
+          "categoryId",
+          "difficulty",
+          "tags",
+          "published",
+          "featured"
+        ],
+        "description": "A newly created quiz"
+      },
+      "QuizQuestionDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cm3xyz789ghi012"
+          },
+          "text": {
+            "type": "string",
+            "example": "What is the typeof null in JavaScript?"
+          },
+          "type": {
+            "$ref": "#/components/schemas/QuestionType"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "explanation": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "typeof null returns 'object' due to a legacy bug in JavaScript."
+          },
+          "order": {
+            "type": "integer",
+            "example": 1
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Answer"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "text",
+          "type",
+          "difficulty",
+          "explanation",
+          "order",
+          "answers"
+        ],
+        "description": "A question with answers, returned within a quiz detail"
+      },
+      "QuizDetail": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cm3abc123def456"
+          },
+          "title": {
+            "type": "string",
+            "example": "JavaScript Fundamentals"
+          },
+          "description": {
+            "type": "string",
+            "example": "Test your JS knowledge"
+          },
+          "category": {
+            "type": "string",
+            "example": "Programming"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "javascript",
+              "web"
+            ]
+          },
+          "questionCount": {
+            "type": "integer",
+            "example": 10
+          },
+          "plays": {
+            "type": "integer",
+            "example": 1250
+          },
+          "slug": {
+            "type": "string",
+            "example": "javascript-fundamentals"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuizQuestionDetail"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "category",
+          "difficulty",
+          "tags",
+          "questionCount",
+          "plays",
+          "slug",
+          "questions"
+        ],
+        "description": "Full quiz details including questions and answers"
+      },
+      "QuizQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cm3xyz789ghi012"
+          },
+          "quizId": {
+            "type": "string",
+            "example": "cm3abc123def456"
+          },
+          "text": {
+            "type": "string",
+            "example": "What is the typeof null in JavaScript?"
+          },
+          "type": {
+            "$ref": "#/components/schemas/QuestionType"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "explanation": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "typeof null returns 'object' due to a legacy bug in JavaScript."
+          },
+          "category": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Programming",
+            "description": "Category of the parent quiz"
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Answer"
+            },
+            "description": "Included when include_answers=true"
+          }
+        },
+        "required": [
+          "id",
+          "quizId",
+          "text",
+          "type",
+          "difficulty",
+          "explanation",
+          "category"
+        ],
+        "description": "A question belonging to a specific quiz (returned with quiz_id mode)"
+      },
+      "BrowseQuestion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "cm3xyz789ghi012"
+          },
+          "text": {
+            "type": "string",
+            "example": "What is the typeof null in JavaScript?"
+          },
+          "type": {
+            "$ref": "#/components/schemas/QuestionType"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "explanation": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "typeof null returns 'object' due to a legacy bug."
+          },
+          "category": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Programming"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "javascript",
+              "fundamentals"
+            ]
+          },
+          "quizId": {
+            "type": "string",
+            "example": "cm3abc123def456"
+          },
+          "quizTitle": {
+            "type": "string",
+            "example": "JavaScript Essentials"
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Answer"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "text",
+          "type",
+          "difficulty",
+          "explanation",
+          "category",
+          "tags",
+          "quizId",
+          "quizTitle",
+          "answers"
+        ],
+        "description": "A question with quiz context (returned in browse mode)"
+      },
+      "BatchQuestionInput": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "What is the typeof null in JavaScript?"
+          },
+          "type": {
+            "$ref": "#/components/schemas/QuestionType"
+          },
+          "difficulty": {
+            "$ref": "#/components/schemas/Difficulty"
+          },
+          "explanation": {
+            "type": "string",
+            "example": "typeof null returns 'object' due to a legacy bug in JavaScript."
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "isCorrect": {
+                  "type": "boolean",
+                  "example": true
+                }
+              },
+              "required": [
+                "text",
+                "isCorrect"
+              ]
+            },
+            "minItems": 2,
+            "description": "At least 2 answers required. TRUE_FALSE must have exactly 2."
+          }
+        },
+        "required": [
+          "text",
+          "type",
+          "difficulty",
+          "answers"
+        ],
+        "description": "A question to create in the batch"
+      },
+      "BatchImportResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "quizId": {
+                "type": "string",
+                "example": "cm3abc123def456"
+              },
+              "questionsCreated": {
+                "type": "integer",
+                "example": 5
+              },
+              "questions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/QuizQuestionDetail"
+                }
+              }
+            },
+            "required": [
+              "quizId",
+              "questionsCreated",
+              "questions"
+            ]
+          }
+        },
+        "required": [
+          "success",
+          "data"
+        ],
+        "description": "Successful batch import response"
+      }
+    },
+    "parameters": {}
+  },
+  "paths": {
+    "/api/v1/metadata": {
+      "get": {
+        "summary": "Get API metadata",
+        "description": "Returns available categories, tags, difficulties, question types, and aggregate stats. No API key required \u2014 this is a discovery endpoint.",
+        "tags": [
+          "Discovery"
+        ],
+        "responses": {
+          "200": {
+            "description": "Metadata retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetadataResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/categories": {
+      "get": {
+        "summary": "List topics and categories",
+        "description": "Returns the full Topic \u2192 Category hierarchy with quiz counts and popular tags per category. Use the returned category `id` as the `categoryId` when creating quizzes. No API key required \u2014 this is a discovery endpoint.",
+        "tags": [
+          "Discovery"
+        ],
+        "responses": {
+          "200": {
+            "description": "Categories retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoriesResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quizzes": {
+      "get": {
+        "summary": "List quizzes",
+        "description": "Returns a paginated list of published, approved quizzes (plus your own). Supports filtering by category, difficulty, tags, and free-text topic search.",
+        "tags": [
+          "Quizzes"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "Filter by category (case-insensitive)",
+              "example": "Programming"
+            },
+            "required": false,
+            "description": "Filter by category (case-insensitive)",
+            "name": "category",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/Difficulty"
+                },
+                {
+                  "description": "Filter by difficulty level"
+                }
+              ]
+            },
+            "required": false,
+            "description": "Filter by difficulty level",
+            "name": "difficulty",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated list of tags",
+              "example": "javascript,react"
+            },
+            "required": false,
+            "description": "Comma-separated list of tags",
+            "name": "tags",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "Free-text search in title, description, and tags",
+              "example": "react hooks"
+            },
+            "required": false,
+            "description": "Free-text search in title, description, and tags",
+            "name": "topic",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "popular",
+                "newest",
+                "title"
+              ],
+              "default": "popular",
+              "description": "Sort order: popular (plays desc), newest (created desc), or title (alphabetical asc)",
+              "example": "popular"
+            },
+            "required": false,
+            "description": "Sort order: popular (plays desc), newest (created desc), or title (alphabetical asc)",
+            "name": "sort",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "description": "Number of results to return (1\u201350)"
+            },
+            "required": false,
+            "description": "Number of results to return (1\u201350)",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0,
+              "default": 0,
+              "description": "Number of results to skip for pagination"
+            },
+            "required": false,
+            "description": "Number of results to skip for pagination",
+            "name": "offset",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quizzes retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/QuizListItem"
+                      }
+                    },
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "integer"
+                        },
+                        "limit": {
+                          "type": "integer"
+                        },
+                        "offset": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "total",
+                        "limit",
+                        "offset"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data",
+                    "meta"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a quiz",
+        "description": "Create a new quiz. Requires a Starter or Pro plan (admins are exempt). Quiz creation limits are enforced per plan. Admins can set `featured: true` to display the quiz in the Practice section immediately. Non-admin users can add `featured` in the body but it will be silently ignored.",
+        "tags": [
+          "Quizzes"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateQuizRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Quiz created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CreatedQuiz"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Free plan (upgrade required) or quiz limit reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quizzes/{id}": {
+      "get": {
+        "summary": "Get a single quiz",
+        "description": "Returns full details for a single quiz including all questions and answers. Only published quizzes that are approved or owned by the API key holder are returned.",
+        "tags": [
+          "Quizzes"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "The quiz ID",
+              "example": "cm3abc123def456"
+            },
+            "required": true,
+            "description": "The quiz ID",
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Quiz retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/QuizDetail"
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Quiz not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/questions": {
+      "get": {
+        "summary": "Get questions",
+        "description": "Two modes: (1) Pass `quiz_id` to get ordered questions for a specific quiz. (2) Omit `quiz_id` to browse questions across all published quizzes with pagination, filtering, and optional randomization. Only approved quizzes and your own quizzes are included.",
+        "tags": [
+          "Questions"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "If provided, returns questions for this quiz (Mode 1). If omitted, enters browse mode (Mode 2).",
+              "example": "cm3abc123def456"
+            },
+            "required": false,
+            "description": "If provided, returns questions for this quiz (Mode 1). If omitted, enters browse mode (Mode 2).",
+            "name": "quiz_id",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "Set to \"true\" to include answers (Mode 1 only). In browse mode, answers are always included.",
+              "example": "true"
+            },
+            "required": false,
+            "description": "Set to \"true\" to include answers (Mode 1 only). In browse mode, answers are always included.",
+            "name": "include_answers",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "Filter by quiz category. Supports comma-separated values for multiple categories (case-insensitive). Browse mode only.",
+              "example": "Programming,DevOps"
+            },
+            "required": false,
+            "description": "Filter by quiz category. Supports comma-separated values for multiple categories (case-insensitive). Browse mode only.",
+            "name": "category",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "Filter by difficulty. Supports comma-separated values (case-insensitive). Browse mode only.",
+              "example": "EASY,MEDIUM"
+            },
+            "required": false,
+            "description": "Filter by difficulty. Supports comma-separated values (case-insensitive). Browse mode only.",
+            "name": "difficulty",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "Filter by question type. Supports comma-separated values. Browse mode only.",
+              "example": "MULTIPLE_CHOICE,TRUE_FALSE"
+            },
+            "required": false,
+            "description": "Filter by question type. Supports comma-separated values. Browse mode only.",
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "Comma-separated tags to match (browse mode only)",
+              "example": "javascript,react"
+            },
+            "required": false,
+            "description": "Comma-separated tags to match (browse mode only)",
+            "name": "tags",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10,
+              "description": "Max questions to return per page in browse mode (1\u201350)"
+            },
+            "required": false,
+            "description": "Max questions to return per page in browse mode (1\u201350)",
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0,
+              "default": 0,
+              "description": "Number of questions to skip for pagination (browse mode only)"
+            },
+            "required": false,
+            "description": "Number of questions to skip for pagination (browse mode only)",
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "description": "Set to \"true\" to shuffle the returned questions randomly (browse mode only)",
+              "example": "true"
+            },
+            "required": false,
+            "description": "Set to \"true\" to shuffle the returned questions randomly (browse mode only)",
+            "name": "random",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Questions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/QuizQuestion"
+                          }
+                        },
+                        "meta": {
+                          "type": "object",
+                          "properties": {
+                            "total": {
+                              "type": "integer"
+                            },
+                            "quizId": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "total",
+                            "quizId"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "success",
+                        "data",
+                        "meta"
+                      ],
+                      "description": "Mode 1 response (quiz_id provided)"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "success": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "data": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/BrowseQuestion"
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMeta"
+                        }
+                      },
+                      "required": [
+                        "success",
+                        "data",
+                        "meta"
+                      ],
+                      "description": "Mode 2 response (browse mode)"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid parameters (e.g. bad difficulty or type value)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/quizzes/{id}/questions/batch": {
+      "post": {
+        "summary": "Batch import questions",
+        "description": "Import multiple questions into an existing quiz at once. Validates all questions before inserting \u2014 if any fail validation, the entire batch is rejected. Questions are appended after existing questions. **Requires a paid plan (Starter or Pro) or admin role.**",
+        "tags": [
+          "Questions"
+        ],
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "description": "The quiz ID to add questions to",
+              "example": "cm3abc123def456"
+            },
+            "required": true,
+            "description": "The quiz ID to add questions to",
+            "name": "id",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "questions": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/BatchQuestionInput"
+                    },
+                    "minItems": 1,
+                    "maxItems": 50,
+                    "description": "Array of questions to import (1\u201350)"
+                  }
+                },
+                "required": [
+                  "questions"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Questions created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BatchImportResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid JSON body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden \u2014 free plan users cannot use batch import, or quiz is not owned by API key holder",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Quiz not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation failed \u2014 one or more questions have errors",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "enum": [
+                        false
+                      ]
+                    },
+                    "error": {
+                      "type": "string"
+                    },
+                    "details": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  },
+                  "required": [
+                    "success",
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "webhooks": {}
+}
