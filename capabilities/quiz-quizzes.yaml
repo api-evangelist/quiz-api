@@ -1,0 +1,194 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: QuizAPI — Quizzes
+  description: 'QuizAPI — Quizzes. 3 operations. Lead operation: List quizzes. Self-contained Naftiko capability covering
+    one Quiz Api business surface.'
+  tags:
+  - Quiz Api
+  - Quizzes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUIZ_API_API_KEY: QUIZ_API_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: quiz-quizzes
+    baseUri: https://quizapi.io
+    description: QuizAPI — Quizzes business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-quizzes
+      path: /api/v1/quizzes
+      operations:
+      - name: get
+        method: GET
+        description: List quizzes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: category
+          in: query
+          type: string
+          description: Filter by category (case-insensitive)
+        - name: difficulty
+          in: query
+          type: string
+          description: Filter by difficulty level
+        - name: tags
+          in: query
+          type: string
+          description: Comma-separated list of tags
+        - name: topic
+          in: query
+          type: string
+          description: Free-text search in title, description, and tags
+        - name: sort
+          in: query
+          type: string
+          description: 'Sort order: popular (plays desc), newest (created desc), or title (alphabetical asc)'
+        - name: limit
+          in: query
+          type: integer
+          description: Number of results to return (1–50)
+        - name: offset
+          in: query
+          type:
+          - integer
+          - 'null'
+          description: Number of results to skip for pagination
+      - name: post
+        method: POST
+        description: Create a quiz
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v1-quizzes-id
+      path: /api/v1/quizzes/{id}
+      operations:
+      - name: get
+        method: GET
+        description: Get a single quiz
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The quiz ID
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.QUIZ_API_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: quiz-quizzes-rest
+    port: 8080
+    description: REST adapter for QuizAPI — Quizzes. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/api/v1/quizzes
+      name: api-v1-quizzes
+      description: REST surface for api-v1-quizzes.
+      operations:
+      - method: GET
+        name: get
+        description: List quizzes
+        call: quiz-quizzes.get
+        with:
+          category: rest.category
+          difficulty: rest.difficulty
+          tags: rest.tags
+          topic: rest.topic
+          sort: rest.sort
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: post
+        description: Create a quiz
+        call: quiz-quizzes.post
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/quizzes/{id}
+      name: api-v1-quizzes-id
+      description: REST surface for api-v1-quizzes-id.
+      operations:
+      - method: GET
+        name: get
+        description: Get a single quiz
+        call: quiz-quizzes.get
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: quiz-quizzes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for QuizAPI — Quizzes. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-quizzes
+      description: List quizzes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: quiz-quizzes.get
+      with:
+        category: tools.category
+        difficulty: tools.difficulty
+        tags: tools.tags
+        topic: tools.topic
+        sort: tools.sort
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-quiz
+      description: Create a quiz
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: quiz-quizzes.post
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-single-quiz
+      description: Get a single quiz
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: quiz-quizzes.get
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

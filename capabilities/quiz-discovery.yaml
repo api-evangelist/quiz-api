@@ -1,0 +1,102 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: QuizAPI — Discovery
+  description: 'QuizAPI — Discovery. 2 operations. Lead operation: List topics and categories. Self-contained Naftiko capability
+    covering one Quiz Api business surface.'
+  tags:
+  - Quiz Api
+  - Discovery
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUIZ_API_API_KEY: QUIZ_API_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: quiz-discovery
+    baseUri: https://quizapi.io
+    description: QuizAPI — Discovery business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-categories
+      path: /api/v1/categories
+      operations:
+      - name: get
+        method: GET
+        description: List topics and categories
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-v1-metadata
+      path: /api/v1/metadata
+      operations:
+      - name: get
+        method: GET
+        description: Get API metadata
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.QUIZ_API_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: quiz-discovery-rest
+    port: 8080
+    description: REST adapter for QuizAPI — Discovery. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/api/v1/categories
+      name: api-v1-categories
+      description: REST surface for api-v1-categories.
+      operations:
+      - method: GET
+        name: get
+        description: List topics and categories
+        call: quiz-discovery.get
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/metadata
+      name: api-v1-metadata
+      description: REST surface for api-v1-metadata.
+      operations:
+      - method: GET
+        name: get
+        description: Get API metadata
+        call: quiz-discovery.get
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: quiz-discovery-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for QuizAPI — Discovery. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: list-topics-and-categories
+      description: List topics and categories
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: quiz-discovery.get
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-api-metadata
+      description: Get API metadata
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: quiz-discovery.get
+      outputParameters:
+      - type: object
+        mapping: $.

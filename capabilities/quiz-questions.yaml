@@ -1,0 +1,179 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: QuizAPI — Questions
+  description: 'QuizAPI — Questions. 2 operations. Lead operation: Get questions. Self-contained Naftiko capability covering
+    one Quiz Api business surface.'
+  tags:
+  - Quiz Api
+  - Questions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    QUIZ_API_API_KEY: QUIZ_API_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: quiz-questions
+    baseUri: https://quizapi.io
+    description: QuizAPI — Questions business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-questions
+      path: /api/v1/questions
+      operations:
+      - name: get
+        method: GET
+        description: Get questions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: quiz_id
+          in: query
+          type: string
+          description: If provided, returns questions for this quiz (Mode 1). If omitted, enters browse mode (Mode 2).
+        - name: include_answers
+          in: query
+          type: string
+          description: Set to "true" to include answers (Mode 1 only). In browse mode, answers are always included.
+        - name: category
+          in: query
+          type: string
+          description: Filter by quiz category. Supports comma-separated values for multiple categories (case-insensitive).
+            Browse mode only.
+        - name: difficulty
+          in: query
+          type: string
+          description: Filter by difficulty. Supports comma-separated values (case-insensitive). Browse mode only.
+        - name: type
+          in: query
+          type: string
+          description: Filter by question type. Supports comma-separated values. Browse mode only.
+        - name: tags
+          in: query
+          type: string
+          description: Comma-separated tags to match (browse mode only)
+        - name: limit
+          in: query
+          type: integer
+          description: Max questions to return per page in browse mode (1–50)
+        - name: offset
+          in: query
+          type:
+          - integer
+          - 'null'
+          description: Number of questions to skip for pagination (browse mode only)
+        - name: random
+          in: query
+          type: string
+          description: Set to "true" to shuffle the returned questions randomly (browse mode only)
+    - name: api-v1-quizzes-id-questions-batch
+      path: /api/v1/quizzes/{id}/questions/batch
+      operations:
+      - name: post
+        method: POST
+        description: Batch import questions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: id
+          in: path
+          type: string
+          description: The quiz ID to add questions to
+          required: true
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: false
+    authentication:
+      type: bearer
+      token: '{{env.QUIZ_API_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: quiz-questions-rest
+    port: 8080
+    description: REST adapter for QuizAPI — Questions. One Spectral-compliant resource per consumed operation, prefixed with
+      /v1.
+    resources:
+    - path: /v1/api/v1/questions
+      name: api-v1-questions
+      description: REST surface for api-v1-questions.
+      operations:
+      - method: GET
+        name: get
+        description: Get questions
+        call: quiz-questions.get
+        with:
+          quiz_id: rest.quiz_id
+          include_answers: rest.include_answers
+          category: rest.category
+          difficulty: rest.difficulty
+          type: rest.type
+          tags: rest.tags
+          limit: rest.limit
+          offset: rest.offset
+          random: rest.random
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/quizzes/{id}/questions/batch
+      name: api-v1-quizzes-id-questions-batch
+      description: REST surface for api-v1-quizzes-id-questions-batch.
+      operations:
+      - method: POST
+        name: post
+        description: Batch import questions
+        call: quiz-questions.post
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: quiz-questions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for QuizAPI — Questions. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: get-questions
+      description: Get questions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: quiz-questions.get
+      with:
+        quiz_id: tools.quiz_id
+        include_answers: tools.include_answers
+        category: tools.category
+        difficulty: tools.difficulty
+        type: tools.type
+        tags: tools.tags
+        limit: tools.limit
+        offset: tools.offset
+        random: tools.random
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: batch-import-questions
+      description: Batch import questions
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: quiz-questions.post
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
