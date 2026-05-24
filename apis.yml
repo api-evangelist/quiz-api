@@ -63,6 +63,8 @@ common:
   url: https://quizapi.io/signup
 - type: Support
   url: https://github.com/QuizAPI/support/issues
+- type: LLMsTxt
+  url: https://quizapi.io/llms.txt
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
