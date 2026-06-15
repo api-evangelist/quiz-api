@@ -1,0 +1,2652 @@
+{
+  "item": [
+    {
+      "id": "1141fca9-6821-40e6-aaec-d483c17cf61c",
+      "name": "Discovery",
+      "description": {
+        "content": "Endpoints that require no authentication",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "94154819-33d3-4759-b670-3e208af94209",
+          "name": "Get API metadata",
+          "request": {
+            "name": "Get API metadata",
+            "description": {
+              "content": "Returns available categories, tags, difficulties, question types, and aggregate stats. No API key required — this is a discovery endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e0a3ed09-f982-49ce-acff-94f64ec32edc",
+              "name": "Metadata retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"difficulties\": [\n      \"EASY\",\n      \"MEDIUM\",\n      \"HARD\",\n      \"EXPERT\"\n    ],\n    \"questionTypes\": [\n      \"MULTIPLE_CHOICE\",\n      \"TRUE_FALSE\",\n      \"OPEN_ENDED\"\n    ],\n    \"categories\": [\n      \"Programming\",\n      \"DevOps\",\n      \"Science\"\n    ],\n    \"tags\": [\n      \"javascript\",\n      \"python\",\n      \"docker\"\n    ],\n    \"stats\": {\n      \"totalQuizzes\": 150,\n      \"totalQuestions\": 3200\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65ca4f43-5920-4708-a882-f541e8c70b4f",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f601a1f8-bb97-45b6-8c2a-d25294511209",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0bdb0eb2-3dce-43e5-8d19-c50a160ef025",
+          "name": "List topics and categories",
+          "request": {
+            "name": "List topics and categories",
+            "description": {
+              "content": "Returns the full Topic → Category hierarchy with quiz counts and popular tags per category. Use the returned category `id` as the `categoryId` when creating quizzes. No API key required — this is a discovery endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "categories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b72ca20c-3125-4526-a549-935115264550",
+              "name": "Categories retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"cm3topic123\",\n      \"name\": \"Programming\",\n      \"slug\": \"programming\",\n      \"icon\": \"code\",\n      \"categories\": [\n        {\n          \"id\": \"cm3cat789\",\n          \"name\": \"Python\",\n          \"slug\": \"python\",\n          \"quizCount\": 12,\n          \"tags\": [\n            \"python\",\n            \"basics\",\n            \"data-structures\"\n          ]\n        },\n        {\n          \"id\": \"cm3cat789\",\n          \"name\": \"Python\",\n          \"slug\": \"python\",\n          \"quizCount\": 12,\n          \"tags\": [\n            \"python\",\n            \"basics\",\n            \"data-structures\"\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"cm3topic123\",\n      \"name\": \"Programming\",\n      \"slug\": \"programming\",\n      \"icon\": \"code\",\n      \"categories\": [\n        {\n          \"id\": \"cm3cat789\",\n          \"name\": \"Python\",\n          \"slug\": \"python\",\n          \"quizCount\": 12,\n          \"tags\": [\n            \"python\",\n            \"basics\",\n            \"data-structures\"\n          ]\n        },\n        {\n          \"id\": \"cm3cat789\",\n          \"name\": \"Python\",\n          \"slug\": \"python\",\n          \"quizCount\": 12,\n          \"tags\": [\n            \"python\",\n            \"basics\",\n            \"data-structures\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1ce790dc-b2d2-4615-9ecd-a57d4d08ba11",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa0289a7-61ea-4074-8d15-50c0fd4dbabc",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "b71eaf2a-cb5e-4140-a508-5e2a58ef8432",
+      "name": "Quizzes",
+      "description": {
+        "content": "Browse and search published quizzes",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9e06ccd5-2ad1-4a8d-8259-ff2b77100584",
+          "name": "List quizzes",
+          "request": {
+            "name": "List quizzes",
+            "description": {
+              "content": "Returns a paginated list of published, approved quizzes (plus your own). Supports filtering by category, difficulty, tags, and free-text topic search.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "quizzes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "Filter by category (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "difficulty",
+                  "value": "<string>",
+                  "description": "Filter by difficulty level"
+                },
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "Comma-separated list of tags"
+                },
+                {
+                  "disabled": false,
+                  "key": "topic",
+                  "value": "<string>",
+                  "description": "Free-text search in title, description, and tags"
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "popular",
+                  "description": "Sort order: popular (plays desc), newest (created desc), or title (alphabetical asc)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Number of results to return (1–50)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of results to skip for pagination"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4c7dc845-0390-404a-bbc0-8dd066752290",
+              "name": "Quizzes retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "Programming"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EXPERT"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "topic",
+                      "value": "react hooks"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "popular"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"cm3abc123def456\",\n      \"title\": \"JavaScript Fundamentals\",\n      \"description\": \"Test your JS knowledge\",\n      \"category\": \"Programming\",\n      \"difficulty\": \"MEDIUM\",\n      \"tags\": [\n        \"javascript\",\n        \"web\"\n      ],\n      \"questionCount\": 10,\n      \"plays\": 1250,\n      \"slug\": \"javascript-fundamentals\"\n    },\n    {\n      \"id\": \"cm3abc123def456\",\n      \"title\": \"JavaScript Fundamentals\",\n      \"description\": \"Test your JS knowledge\",\n      \"category\": \"Programming\",\n      \"difficulty\": \"EXPERT\",\n      \"tags\": [\n        \"javascript\",\n        \"web\"\n      ],\n      \"questionCount\": 10,\n      \"plays\": 1250,\n      \"slug\": \"javascript-fundamentals\"\n    }\n  ],\n  \"meta\": {\n    \"total\": 9462,\n    \"limit\": 6602,\n    \"offset\": 5597\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "31c541fd-988b-4fef-9a3a-d3fbeccdeead",
+              "name": "Invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "Programming"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EXPERT"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "topic",
+                      "value": "react hooks"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "popular"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cb23e4da-560e-4aaf-8d5e-79c60deb743b",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "Programming"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EXPERT"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "topic",
+                      "value": "react hooks"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "popular"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ab41491-04b5-4b65-9d4e-3a40f3fb01bb",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "Programming"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EXPERT"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "topic",
+                      "value": "react hooks"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "popular"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc88eb87-8e11-46b8-a471-9bd3757a5719",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "category",
+                      "value": "Programming"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EXPERT"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "topic",
+                      "value": "react hooks"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "popular"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7cfc7378-6e25-45d5-8cc7-44e03b3d577d",
+          "name": "Create a quiz",
+          "request": {
+            "name": "Create a quiz",
+            "description": {
+              "content": "Create a new quiz. Requires a Starter or Pro plan (admins are exempt). Quiz creation limits are enforced per plan. Admins can set `featured: true` to display the quiz in the Practice section immediately. Non-admin users can add `featured` in the body but it will be silently ignored.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "quizzes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"<string>\",\n  \"difficulty\": \"<string>\",\n  \"description\": \"<string>\",\n  \"category\": \"<string>\",\n  \"categoryId\": \"<string>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"published\": false,\n  \"featured\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8f27babd-887b-4598-8041-0eee77ac4775",
+              "name": "Quiz created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Python Basics\",\n  \"difficulty\": \"HARD\",\n  \"description\": \"Learn Python fundamentals.\",\n  \"category\": \"Programming\",\n  \"categoryId\": \"cat_python\",\n  \"tags\": [\n    \"python\",\n    \"basics\"\n  ],\n  \"published\": false,\n  \"featured\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"cm3abc123def456\",\n    \"title\": \"Python Basics\",\n    \"description\": \"Learn Python fundamentals.\",\n    \"category\": \"Programming\",\n    \"categoryId\": \"cat_python\",\n    \"difficulty\": \"EXPERT\",\n    \"tags\": [\n      \"python\",\n      \"basics\"\n    ],\n    \"published\": true,\n    \"featured\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "310a03a2-4def-4817-81d9-95e41bd0fead",
+              "name": "Invalid JSON body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Python Basics\",\n  \"difficulty\": \"HARD\",\n  \"description\": \"Learn Python fundamentals.\",\n  \"category\": \"Programming\",\n  \"categoryId\": \"cat_python\",\n  \"tags\": [\n    \"python\",\n    \"basics\"\n  ],\n  \"published\": false,\n  \"featured\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b61a4360-183d-4c25-a30b-1e9ef0216271",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Python Basics\",\n  \"difficulty\": \"HARD\",\n  \"description\": \"Learn Python fundamentals.\",\n  \"category\": \"Programming\",\n  \"categoryId\": \"cat_python\",\n  \"tags\": [\n    \"python\",\n    \"basics\"\n  ],\n  \"published\": false,\n  \"featured\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a9ba0c9b-c946-44a8-a120-e4a3d4d53c01",
+              "name": "Free plan (upgrade required) or quiz limit reached",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Python Basics\",\n  \"difficulty\": \"HARD\",\n  \"description\": \"Learn Python fundamentals.\",\n  \"category\": \"Programming\",\n  \"categoryId\": \"cat_python\",\n  \"tags\": [\n    \"python\",\n    \"basics\"\n  ],\n  \"published\": false,\n  \"featured\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1929622-87dd-418a-9a30-5de5785bf7f9",
+              "name": "Validation failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Python Basics\",\n  \"difficulty\": \"HARD\",\n  \"description\": \"Learn Python fundamentals.\",\n  \"category\": \"Programming\",\n  \"categoryId\": \"cat_python\",\n  \"tags\": [\n    \"python\",\n    \"basics\"\n  ],\n  \"published\": false,\n  \"featured\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8d8ce470-7869-488f-963e-99e2d99b42ef",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Python Basics\",\n  \"difficulty\": \"HARD\",\n  \"description\": \"Learn Python fundamentals.\",\n  \"category\": \"Programming\",\n  \"categoryId\": \"cat_python\",\n  \"tags\": [\n    \"python\",\n    \"basics\"\n  ],\n  \"published\": false,\n  \"featured\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f60df8f1-f87f-4569-baf1-cc6823ac2873",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"title\": \"Python Basics\",\n  \"difficulty\": \"HARD\",\n  \"description\": \"Learn Python fundamentals.\",\n  \"category\": \"Programming\",\n  \"categoryId\": \"cat_python\",\n  \"tags\": [\n    \"python\",\n    \"basics\"\n  ],\n  \"published\": false,\n  \"featured\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "049de082-59c4-4643-b523-be89176fe096",
+          "name": "Get a single quiz",
+          "request": {
+            "name": "Get a single quiz",
+            "description": {
+              "content": "Returns full details for a single quiz including all questions and answers. Only published quizzes that are approved or owned by the API key holder are returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "quizzes",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The quiz ID"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "64720271-8d4a-4a4d-a5bc-e7a236cf037f",
+              "name": "Quiz retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": \"cm3abc123def456\",\n    \"title\": \"JavaScript Fundamentals\",\n    \"description\": \"Test your JS knowledge\",\n    \"category\": \"Programming\",\n    \"difficulty\": \"MEDIUM\",\n    \"tags\": [\n      \"javascript\",\n      \"web\"\n    ],\n    \"questionCount\": 10,\n    \"plays\": 1250,\n    \"slug\": \"javascript-fundamentals\",\n    \"questions\": [\n      {\n        \"id\": \"cm3xyz789ghi012\",\n        \"text\": \"What is the typeof null in JavaScript?\",\n        \"type\": \"MULTIPLE_CHOICE\",\n        \"difficulty\": \"MEDIUM\",\n        \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\",\n        \"order\": 1,\n        \"answers\": [\n          {\n            \"id\": \"ans_abc123\",\n            \"text\": \"42\",\n            \"isCorrect\": true\n          },\n          {\n            \"id\": \"ans_abc123\",\n            \"text\": \"42\",\n            \"isCorrect\": true\n          }\n        ]\n      },\n      {\n        \"id\": \"cm3xyz789ghi012\",\n        \"text\": \"What is the typeof null in JavaScript?\",\n        \"type\": \"MULTIPLE_CHOICE\",\n        \"difficulty\": \"MEDIUM\",\n        \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\",\n        \"order\": 1,\n        \"answers\": [\n          {\n            \"id\": \"ans_abc123\",\n            \"text\": \"42\",\n            \"isCorrect\": true\n          },\n          {\n            \"id\": \"ans_abc123\",\n            \"text\": \"42\",\n            \"isCorrect\": true\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e10c56fe-9cba-4756-b00d-6ff17033a311",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d87fc3ab-c4ec-4748-890f-f595b32c2f85",
+              "name": "Quiz not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3500f38-07d3-4c13-9400-04ac2b44685e",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de3f6b14-8e28-4f31-9cee-0decfba1c851",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "69ea4b08-81be-483c-b2b2-c3a5aa23be66",
+      "name": "Questions",
+      "description": {
+        "content": "Retrieve questions for quizzes or browse across all quizzes",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d63d9af4-c82d-46fa-a1df-6b841ef5f24a",
+          "name": "Get questions",
+          "request": {
+            "name": "Get questions",
+            "description": {
+              "content": "Two modes: (1) Pass `quiz_id` to get ordered questions for a specific quiz. (2) Omit `quiz_id` to browse questions across all published quizzes with pagination, filtering, and optional randomization. Only approved quizzes and your own quizzes are included.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "questions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "quiz_id",
+                  "value": "<string>",
+                  "description": "If provided, returns questions for this quiz (Mode 1). If omitted, enters browse mode (Mode 2)."
+                },
+                {
+                  "disabled": false,
+                  "key": "include_answers",
+                  "value": "<string>",
+                  "description": "Set to \"true\" to include answers (Mode 1 only). In browse mode, answers are always included."
+                },
+                {
+                  "disabled": false,
+                  "key": "category",
+                  "value": "<string>",
+                  "description": "Filter by quiz category. Supports comma-separated values for multiple categories (case-insensitive). Browse mode only."
+                },
+                {
+                  "disabled": false,
+                  "key": "difficulty",
+                  "value": "<string>",
+                  "description": "Filter by difficulty. Supports comma-separated values (case-insensitive). Browse mode only."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Filter by question type. Supports comma-separated values. Browse mode only."
+                },
+                {
+                  "disabled": false,
+                  "key": "tags",
+                  "value": "<string>",
+                  "description": "Comma-separated tags to match (browse mode only)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Max questions to return per page in browse mode (1–50)"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of questions to skip for pagination (browse mode only)"
+                },
+                {
+                  "disabled": false,
+                  "key": "random",
+                  "value": "<string>",
+                  "description": "Set to \"true\" to shuffle the returned questions randomly (browse mode only)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b953e115-b540-4339-8d9d-afe08fbcdd0b",
+              "name": "Questions retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "questions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quiz_id",
+                      "value": "cm3abc123def456"
+                    },
+                    {
+                      "key": "include_answers",
+                      "value": "true"
+                    },
+                    {
+                      "key": "category",
+                      "value": "Programming,DevOps"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EASY,MEDIUM"
+                    },
+                    {
+                      "key": "type",
+                      "value": "MULTIPLE_CHOICE,TRUE_FALSE"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "random",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"cm3xyz789ghi012\",\n      \"quizId\": \"cm3abc123def456\",\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"TRUE_FALSE\",\n      \"difficulty\": \"EASY\",\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\",\n      \"category\": \"Programming\",\n      \"answers\": [\n        {\n          \"id\": \"ans_abc123\",\n          \"text\": \"42\",\n          \"isCorrect\": true\n        },\n        {\n          \"id\": \"ans_abc123\",\n          \"text\": \"42\",\n          \"isCorrect\": true\n        }\n      ]\n    },\n    {\n      \"id\": \"cm3xyz789ghi012\",\n      \"quizId\": \"cm3abc123def456\",\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"OPEN_ENDED\",\n      \"difficulty\": \"HARD\",\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\",\n      \"category\": \"Programming\",\n      \"answers\": [\n        {\n          \"id\": \"ans_abc123\",\n          \"text\": \"42\",\n          \"isCorrect\": true\n        },\n        {\n          \"id\": \"ans_abc123\",\n          \"text\": \"42\",\n          \"isCorrect\": true\n        }\n      ]\n    }\n  ],\n  \"meta\": {\n    \"total\": 8810,\n    \"quizId\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2bb8b28-78c1-4ea6-a917-89885d3e3c5e",
+              "name": "Invalid parameters (e.g. bad difficulty or type value)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "questions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quiz_id",
+                      "value": "cm3abc123def456"
+                    },
+                    {
+                      "key": "include_answers",
+                      "value": "true"
+                    },
+                    {
+                      "key": "category",
+                      "value": "Programming,DevOps"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EASY,MEDIUM"
+                    },
+                    {
+                      "key": "type",
+                      "value": "MULTIPLE_CHOICE,TRUE_FALSE"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "random",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3035e2f6-c92a-477d-a61b-ea87bfcd54b9",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "questions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quiz_id",
+                      "value": "cm3abc123def456"
+                    },
+                    {
+                      "key": "include_answers",
+                      "value": "true"
+                    },
+                    {
+                      "key": "category",
+                      "value": "Programming,DevOps"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EASY,MEDIUM"
+                    },
+                    {
+                      "key": "type",
+                      "value": "MULTIPLE_CHOICE,TRUE_FALSE"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "random",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "41e01c57-2749-40f4-821a-6e05829bc9f3",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "questions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quiz_id",
+                      "value": "cm3abc123def456"
+                    },
+                    {
+                      "key": "include_answers",
+                      "value": "true"
+                    },
+                    {
+                      "key": "category",
+                      "value": "Programming,DevOps"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EASY,MEDIUM"
+                    },
+                    {
+                      "key": "type",
+                      "value": "MULTIPLE_CHOICE,TRUE_FALSE"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "random",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2da659bb-e7f9-4a55-946a-058ae982b39d",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "questions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "quiz_id",
+                      "value": "cm3abc123def456"
+                    },
+                    {
+                      "key": "include_answers",
+                      "value": "true"
+                    },
+                    {
+                      "key": "category",
+                      "value": "Programming,DevOps"
+                    },
+                    {
+                      "key": "difficulty",
+                      "value": "EASY,MEDIUM"
+                    },
+                    {
+                      "key": "type",
+                      "value": "MULTIPLE_CHOICE,TRUE_FALSE"
+                    },
+                    {
+                      "key": "tags",
+                      "value": "javascript,react"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "10"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    },
+                    {
+                      "key": "random",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "83f4e4c5-3a06-4ba0-a037-8a1df0aec3f4",
+          "name": "Batch import questions",
+          "request": {
+            "name": "Batch import questions",
+            "description": {
+              "content": "Import multiple questions into an existing quiz at once. Validates all questions before inserting — if any fail validation, the entire batch is rejected. Questions are appended after existing questions. **Requires a paid plan (Starter or Pro) or admin role.**",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "quizzes",
+                ":id",
+                "questions",
+                "batch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) The quiz ID to add questions to"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"questions\": [\n    {\n      \"text\": \"<string>\",\n      \"type\": \"<string>\",\n      \"difficulty\": \"<string>\",\n      \"answers\": [\n        {\n          \"text\": \"<string>\",\n          \"isCorrect\": \"<boolean>\"\n        },\n        {\n          \"text\": \"<string>\",\n          \"isCorrect\": \"<boolean>\"\n        }\n      ],\n      \"explanation\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6053a603-4fdb-411a-b463-5eec08ad6f34",
+              "name": "Questions created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id",
+                    "questions",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID to add questions to"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"questions\": [\n    {\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"TRUE_FALSE\",\n      \"difficulty\": \"MEDIUM\",\n      \"answers\": [\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        },\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        }\n      ],\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"quizId\": \"cm3abc123def456\",\n    \"questionsCreated\": 5,\n    \"questions\": [\n      {\n        \"id\": \"cm3xyz789ghi012\",\n        \"text\": \"What is the typeof null in JavaScript?\",\n        \"type\": \"MULTIPLE_CHOICE\",\n        \"difficulty\": \"EXPERT\",\n        \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\",\n        \"order\": 1,\n        \"answers\": [\n          {\n            \"id\": \"ans_abc123\",\n            \"text\": \"42\",\n            \"isCorrect\": true\n          },\n          {\n            \"id\": \"ans_abc123\",\n            \"text\": \"42\",\n            \"isCorrect\": true\n          }\n        ]\n      },\n      {\n        \"id\": \"cm3xyz789ghi012\",\n        \"text\": \"What is the typeof null in JavaScript?\",\n        \"type\": \"TRUE_FALSE\",\n        \"difficulty\": \"HARD\",\n        \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\",\n        \"order\": 1,\n        \"answers\": [\n          {\n            \"id\": \"ans_abc123\",\n            \"text\": \"42\",\n            \"isCorrect\": true\n          },\n          {\n            \"id\": \"ans_abc123\",\n            \"text\": \"42\",\n            \"isCorrect\": true\n          }\n        ]\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0b81bed-6eed-4760-ba7e-ce282d771d90",
+              "name": "Invalid JSON body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id",
+                    "questions",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID to add questions to"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"questions\": [\n    {\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"TRUE_FALSE\",\n      \"difficulty\": \"MEDIUM\",\n      \"answers\": [\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        },\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        }\n      ],\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9fc06ac-0578-46fa-97a3-65348dcfd41f",
+              "name": "Missing or invalid API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id",
+                    "questions",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID to add questions to"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"questions\": [\n    {\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"TRUE_FALSE\",\n      \"difficulty\": \"MEDIUM\",\n      \"answers\": [\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        },\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        }\n      ],\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3950f268-f191-406e-a0d7-b3bcdb1921c3",
+              "name": "Forbidden — free plan users cannot use batch import, or quiz is not owned by API key holder",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id",
+                    "questions",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID to add questions to"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"questions\": [\n    {\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"TRUE_FALSE\",\n      \"difficulty\": \"MEDIUM\",\n      \"answers\": [\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        },\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        }\n      ],\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "191cc099-6941-42d3-9b1a-9855299a9307",
+              "name": "Quiz not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id",
+                    "questions",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID to add questions to"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"questions\": [\n    {\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"TRUE_FALSE\",\n      \"difficulty\": \"MEDIUM\",\n      \"answers\": [\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        },\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        }\n      ],\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9677dc06-f61c-41fa-9c87-e432e42dcfcd",
+              "name": "Validation failed — one or more questions have errors",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id",
+                    "questions",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID to add questions to"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"questions\": [\n    {\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"TRUE_FALSE\",\n      \"difficulty\": \"MEDIUM\",\n      \"answers\": [\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        },\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        }\n      ],\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "14065584-90a4-41d5-9b89-48925f820390",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id",
+                    "questions",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID to add questions to"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"questions\": [\n    {\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"TRUE_FALSE\",\n      \"difficulty\": \"MEDIUM\",\n      \"answers\": [\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        },\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        }\n      ],\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c06cd5a-e03e-4382-9235-088479885a81",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "quizzes",
+                    ":id",
+                    "questions",
+                    "batch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) The quiz ID to add questions to"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"questions\": [\n    {\n      \"text\": \"What is the typeof null in JavaScript?\",\n      \"type\": \"TRUE_FALSE\",\n      \"difficulty\": \"MEDIUM\",\n      \"answers\": [\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        },\n        {\n          \"text\": \"object\",\n          \"isCorrect\": true\n        }\n      ],\n      \"explanation\": \"typeof null returns 'object' due to a legacy bug in JavaScript.\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://quizapi.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "70529623-d9f8-4ccd-804b-6af72eca1fcc",
+    "name": "QuizAPI",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Access thousands of quiz questions across programming, science, and more. Browse by category, difficulty, and tags.\n\nContact Support:\n Name: QuizAPI Support",
+      "type": "text/plain"
+    }
+  }
+}
