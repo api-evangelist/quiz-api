@@ -40,7 +40,7 @@ apis:
         url: https://quizapi.io/api/v1/openapi.json
       - type: OpenAPI
         url: https://raw.githubusercontent.com/api-evangelist/quiz-api/refs/heads/main/openapi/quiz-api-openapi.json
-      - type: SignUp
+      - type: Signup
         url: https://quizapi.io/signup
       - type: Authentication
         url: https://quizapi.io/docs/authentication
@@ -55,11 +55,11 @@ common:
     url: https://quizapi.io/
   - type: Documentation
     url: https://quizapi.io/docs
-  - type: SignUp
+  - type: Signup
     url: https://quizapi.io/signup
   - type: Support
     url: https://github.com/QuizAPI/support/issues
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://quizapi.io/llms.txt
 maintainers:
   - FN: Kin Lane
