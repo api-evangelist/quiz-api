@@ -51,6 +51,10 @@ apis:
       - type: SDKs
         url: https://quizapi.io/docs/sdks
 common:
+  - type: DomainSecurity
+    url: security/quiz-api-domain-security.yml
+  - type: Authentication
+    url: authentication/quiz-api-authentication.yml
   - type: Website
     url: https://quizapi.io/
   - type: Documentation
@@ -61,6 +65,8 @@ common:
     url: https://github.com/QuizAPI/support/issues
   - type: LlmsText
     url: https://quizapi.io/llms.txt
+  - url: https://quizapi.io/blog
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
