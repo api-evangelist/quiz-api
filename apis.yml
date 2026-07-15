@@ -51,6 +51,8 @@ apis:
       - type: SDKs
         url: https://quizapi.io/docs/sdks
 common:
+  - type: AgenticAccess
+    url: agentic-access/quiz-api-agentic-access.yml
   - type: DomainSecurity
     url: security/quiz-api-domain-security.yml
   - type: Authentication
