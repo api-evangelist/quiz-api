@@ -8,7 +8,7 @@ schemes:
 - name: BearerAuth
   type: http
   scheme: bearer
-  description: 'Pass your API key as a Bearer token: `Authorization: Bearer qza_live_...`. Alternatively,
+  description: 'Pass your API key as a Bearer token: `Authorization: Bearer [example key]`. Alternatively,
     use the `api_key` query parameter.'
   sources:
   - openapi/quiz-api-openapi.json
