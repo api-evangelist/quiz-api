@@ -1,0 +1,575 @@
+openapi: 3.1.0
+info:
+  title: Quiz Discovery Questions API
+  version: 1.0.0
+  description: Access thousands of quiz questions across programming, science, and more. Browse by category, difficulty, and tags.
+  contact:
+    name: QuizAPI Support
+    url: https://quizapi.io
+servers:
+- url: https://quizapi.io
+  description: Production
+security: []
+tags:
+- name: Questions
+  description: Retrieve questions for quizzes or browse across all quizzes
+paths:
+  /api/v1/questions:
+    get:
+      summary: Get questions
+      description: 'Two modes: (1) Pass `quiz_id` to get ordered questions for a specific quiz. (2) Omit `quiz_id` to browse questions across all published quizzes with pagination, filtering, and optional randomization. Only approved quizzes and your own quizzes are included.'
+      tags:
+      - Questions
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+          description: If provided, returns questions for this quiz (Mode 1). If omitted, enters browse mode (Mode 2).
+          example: cm3abc123def456
+        required: false
+        description: If provided, returns questions for this quiz (Mode 1). If omitted, enters browse mode (Mode 2).
+        name: quiz_id
+        in: query
+      - schema:
+          type: string
+          description: Set to "true" to include answers (Mode 1 only). In browse mode, answers are always included.
+          example: 'true'
+        required: false
+        description: Set to "true" to include answers (Mode 1 only). In browse mode, answers are always included.
+        name: include_answers
+        in: query
+      - schema:
+          type: string
+          description: Filter by quiz category. Supports comma-separated values for multiple categories (case-insensitive). Browse mode only.
+          example: Programming,DevOps
+        required: false
+        description: Filter by quiz category. Supports comma-separated values for multiple categories (case-insensitive). Browse mode only.
+        name: category
+        in: query
+      - schema:
+          type: string
+          description: Filter by difficulty. Supports comma-separated values (case-insensitive). Browse mode only.
+          example: EASY,MEDIUM
+        required: false
+        description: Filter by difficulty. Supports comma-separated values (case-insensitive). Browse mode only.
+        name: difficulty
+        in: query
+      - schema:
+          type: string
+          description: Filter by question type. Supports comma-separated values. Browse mode only.
+          example: MULTIPLE_CHOICE,TRUE_FALSE
+        required: false
+        description: Filter by question type. Supports comma-separated values. Browse mode only.
+        name: type
+        in: query
+      - schema:
+          type: string
+          description: Comma-separated tags to match (browse mode only)
+          example: javascript,react
+        required: false
+        description: Comma-separated tags to match (browse mode only)
+        name: tags
+        in: query
+      - schema:
+          type: integer
+          minimum: 1
+          maximum: 50
+          default: 10
+          description: Max questions to return per page in browse mode (1–50)
+        required: false
+        description: Max questions to return per page in browse mode (1–50)
+        name: limit
+        in: query
+      - schema:
+          type:
+          - integer
+          - 'null'
+          minimum: 0
+          default: 0
+          description: Number of questions to skip for pagination (browse mode only)
+        required: false
+        description: Number of questions to skip for pagination (browse mode only)
+        name: offset
+        in: query
+      - schema:
+          type: string
+          description: Set to "true" to shuffle the returned questions randomly (browse mode only)
+          example: 'true'
+        required: false
+        description: Set to "true" to shuffle the returned questions randomly (browse mode only)
+        name: random
+        in: query
+      responses:
+        '200':
+          description: Questions retrieved successfully
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - type: object
+                  properties:
+                    success:
+                      type: boolean
+                      enum:
+                      - true
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/QuizQuestion'
+                    meta:
+                      type: object
+                      properties:
+                        total:
+                          type: integer
+                        quizId:
+                          type: string
+                      required:
+                      - total
+                      - quizId
+                  required:
+                  - success
+                  - data
+                  - meta
+                  description: Mode 1 response (quiz_id provided)
+                - type: object
+                  properties:
+                    success:
+                      type: boolean
+                      enum:
+                      - true
+                    data:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/BrowseQuestion'
+                    meta:
+                      $ref: '#/components/schemas/PaginationMeta'
+                  required:
+                  - success
+                  - data
+                  - meta
+                  description: Mode 2 response (browse mode)
+        '400':
+          description: Invalid parameters (e.g. bad difficulty or type value)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/quizzes/{id}/questions/batch:
+    post:
+      summary: Batch import questions
+      description: Import multiple questions into an existing quiz at once. Validates all questions before inserting — if any fail validation, the entire batch is rejected. Questions are appended after existing questions. **Requires a paid plan (Starter or Pro) or admin role.**
+      tags:
+      - Questions
+      security:
+      - BearerAuth: []
+      parameters:
+      - schema:
+          type: string
+          description: The quiz ID to add questions to
+          example: cm3abc123def456
+        required: true
+        description: The quiz ID to add questions to
+        name: id
+        in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questions:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/BatchQuestionInput'
+                  minItems: 1
+                  maxItems: 50
+                  description: Array of questions to import (1–50)
+              required:
+              - questions
+      responses:
+        '201':
+          description: Questions created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchImportResponse'
+        '400':
+          description: Invalid JSON body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Missing or invalid API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden — free plan users cannot use batch import, or quiz is not owned by API key holder
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Quiz not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Validation failed — one or more questions have errors
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    enum:
+                    - false
+                  error:
+                    type: string
+                  details:
+                    type: array
+                    items: {}
+                required:
+                - success
+                - error
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    BrowseQuestion:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3xyz789ghi012
+        text:
+          type: string
+          example: What is the typeof null in JavaScript?
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        explanation:
+          type:
+          - string
+          - 'null'
+          example: typeof null returns 'object' due to a legacy bug.
+        category:
+          type:
+          - string
+          - 'null'
+          example: Programming
+        tags:
+          type: array
+          items:
+            type: string
+          example:
+          - javascript
+          - fundamentals
+        quizId:
+          type: string
+          example: cm3abc123def456
+        quizTitle:
+          type: string
+          example: JavaScript Essentials
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+      required:
+      - id
+      - text
+      - type
+      - difficulty
+      - explanation
+      - category
+      - tags
+      - quizId
+      - quizTitle
+      - answers
+      description: A question with quiz context (returned in browse mode)
+    PaginationMeta:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: Total matching results across all pages
+          example: 23
+        pageTotal:
+          type: integer
+          description: Number of results in this page
+          example: 10
+        page:
+          type: integer
+          description: Current page number (1-based)
+          example: 1
+        lastPage:
+          type: integer
+          description: Total number of pages
+          example: 3
+        limit:
+          type: integer
+          description: Results per page
+          example: 10
+        offset:
+          type: integer
+          description: Number of results skipped
+          example: 0
+        links:
+          $ref: '#/components/schemas/PaginationLinks'
+      required:
+      - total
+      - pageTotal
+      - page
+      - lastPage
+      - limit
+      - offset
+      - links
+      description: Pagination metadata included in browse responses
+    BatchQuestionInput:
+      type: object
+      properties:
+        text:
+          type: string
+          example: What is the typeof null in JavaScript?
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        explanation:
+          type: string
+          example: typeof null returns 'object' due to a legacy bug in JavaScript.
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                example: object
+              isCorrect:
+                type: boolean
+                example: true
+            required:
+            - text
+            - isCorrect
+          minItems: 2
+          description: At least 2 answers required. TRUE_FALSE must have exactly 2.
+      required:
+      - text
+      - type
+      - difficulty
+      - answers
+      description: A question to create in the batch
+    Difficulty:
+      type: string
+      enum:
+      - EASY
+      - MEDIUM
+      - HARD
+      - EXPERT
+      description: Difficulty level of a quiz or question
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          type: string
+          example: Something went wrong.
+      required:
+      - success
+      - error
+      description: Standard error response
+    QuizQuestion:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3xyz789ghi012
+        quizId:
+          type: string
+          example: cm3abc123def456
+        text:
+          type: string
+          example: What is the typeof null in JavaScript?
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        explanation:
+          type:
+          - string
+          - 'null'
+          example: typeof null returns 'object' due to a legacy bug in JavaScript.
+        category:
+          type:
+          - string
+          - 'null'
+          example: Programming
+          description: Category of the parent quiz
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+          description: Included when include_answers=true
+      required:
+      - id
+      - quizId
+      - text
+      - type
+      - difficulty
+      - explanation
+      - category
+      description: A question belonging to a specific quiz (returned with quiz_id mode)
+    PaginationLinks:
+      type: object
+      properties:
+        first:
+          type: string
+          example: /api/v1/questions?offset=0&limit=10
+        last:
+          type: string
+          example: /api/v1/questions?offset=20&limit=10
+        next:
+          type:
+          - string
+          - 'null'
+          example: /api/v1/questions?offset=10&limit=10
+        prev:
+          type:
+          - string
+          - 'null'
+          example: null
+      required:
+      - first
+      - last
+      - next
+      - prev
+      description: Navigation links for pagination
+    QuizQuestionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3xyz789ghi012
+        text:
+          type: string
+          example: What is the typeof null in JavaScript?
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        explanation:
+          type:
+          - string
+          - 'null'
+          example: typeof null returns 'object' due to a legacy bug in JavaScript.
+        order:
+          type: integer
+          example: 1
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+      required:
+      - id
+      - text
+      - type
+      - difficulty
+      - explanation
+      - order
+      - answers
+      description: A question with answers, returned within a quiz detail
+    Answer:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ans_abc123
+        text:
+          type: string
+          example: '42'
+        isCorrect:
+          type: boolean
+          example: true
+      required:
+      - id
+      - text
+      - isCorrect
+      description: An answer option for a question
+    BatchImportResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: object
+          properties:
+            quizId:
+              type: string
+              example: cm3abc123def456
+            questionsCreated:
+              type: integer
+              example: 5
+            questions:
+              type: array
+              items:
+                $ref: '#/components/schemas/QuizQuestionDetail'
+          required:
+          - quizId
+          - questionsCreated
+          - questions
+      required:
+      - success
+      - data
+      description: Successful batch import response
+    QuestionType:
+      type: string
+      enum:
+      - MULTIPLE_CHOICE
+      - TRUE_FALSE
+      - OPEN_ENDED
+      description: The type of question
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your API key as a Bearer token: `Authorization: Bearer qza_live_...`. Alternatively, use the `api_key` query parameter.'

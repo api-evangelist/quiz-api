@@ -1,0 +1,240 @@
+openapi: 3.1.0
+info:
+  title: Quiz Discovery API
+  version: 1.0.0
+  description: Access thousands of quiz questions across programming, science, and more. Browse by category, difficulty, and tags.
+  contact:
+    name: QuizAPI Support
+    url: https://quizapi.io
+servers:
+- url: https://quizapi.io
+  description: Production
+security: []
+tags:
+- name: Discovery
+  description: Endpoints that require no authentication
+paths:
+  /api/v1/metadata:
+    get:
+      summary: Get API metadata
+      description: Returns available categories, tags, difficulties, question types, and aggregate stats. No API key required — this is a discovery endpoint.
+      tags:
+      - Discovery
+      responses:
+        '200':
+          description: Metadata retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetadataResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/categories:
+    get:
+      summary: List topics and categories
+      description: Returns the full Topic → Category hierarchy with quiz counts and popular tags per category. Use the returned category `id` as the `categoryId` when creating quizzes. No API key required — this is a discovery endpoint.
+      tags:
+      - Discovery
+      responses:
+        '200':
+          description: Categories retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoriesResponse'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    CategoriesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopicItem'
+      required:
+      - success
+      - data
+    TopicItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3topic123
+        name:
+          type: string
+          example: Programming
+        slug:
+          type: string
+          example: programming
+        icon:
+          type:
+          - string
+          - 'null'
+          example: code
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryItem'
+      required:
+      - id
+      - name
+      - slug
+      - icon
+      - categories
+      description: A top-level topic containing categories
+    MetadataResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: object
+          properties:
+            difficulties:
+              type: array
+              items:
+                $ref: '#/components/schemas/Difficulty'
+              example:
+              - EASY
+              - MEDIUM
+              - HARD
+              - EXPERT
+            questionTypes:
+              type: array
+              items:
+                $ref: '#/components/schemas/QuestionType'
+              example:
+              - MULTIPLE_CHOICE
+              - TRUE_FALSE
+              - OPEN_ENDED
+            categories:
+              type: array
+              items:
+                type: string
+              example:
+              - Programming
+              - DevOps
+              - Science
+            tags:
+              type: array
+              items:
+                type: string
+              example:
+              - javascript
+              - python
+              - docker
+            stats:
+              type: object
+              properties:
+                totalQuizzes:
+                  type: integer
+                  example: 150
+                totalQuestions:
+                  type: integer
+                  example: 3200
+              required:
+              - totalQuizzes
+              - totalQuestions
+          required:
+          - difficulties
+          - questionTypes
+          - categories
+          - tags
+          - stats
+      required:
+      - success
+      - data
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          type: string
+          example: Something went wrong.
+      required:
+      - success
+      - error
+      description: Standard error response
+    CategoryItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3cat789
+        name:
+          type: string
+          example: Python
+        slug:
+          type: string
+          example: python
+        quizCount:
+          type: integer
+          example: 12
+        tags:
+          type: array
+          items:
+            type: string
+          maxItems: 20
+          example:
+          - python
+          - basics
+          - data-structures
+          description: Popular tags used in quizzes within this category (maximum 20 tags)
+      required:
+      - id
+      - name
+      - slug
+      - quizCount
+      - tags
+      description: A category within a topic
+    Difficulty:
+      type: string
+      enum:
+      - EASY
+      - MEDIUM
+      - HARD
+      - EXPERT
+      description: Difficulty level of a quiz or question
+    QuestionType:
+      type: string
+      enum:
+      - MULTIPLE_CHOICE
+      - TRUE_FALSE
+      - OPEN_ENDED
+      description: The type of question
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Pass your API key as a Bearer token: `Authorization: Bearer qza_live_...`. Alternatively, use the `api_key` query parameter.'
