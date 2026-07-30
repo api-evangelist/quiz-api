@@ -6,9 +6,22 @@ description: >-
   platforms, and embedded quizzes on their own websites. Questions can be filtered by category, difficulty, and tags,
   and quizzes can be created and managed through a JSON REST API.
 type: Index
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 position: Consumer
 access: 3rd-Party
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/quiz-api.png
 tags:
   - Quizzes
   - Trivia
@@ -20,36 +33,72 @@ modified: '2026-05-19'
 url: https://raw.githubusercontent.com/api-evangelist/quiz-api/refs/heads/main/apis.yml
 specificationVersion: '0.19'
 apis:
-  - aid: quiz-api:quiz-api
-    name: QuizAPI
-    description: >-
-      The QuizAPI REST API exposes endpoints for browsing categories and metadata, searching and creating quizzes,
-      retrieving quiz details, listing questions, and batch-importing questions into a quiz. Authentication is performed
-      with a Bearer API key issued from quizapi.io. Responses are JSON with a consistent `data` and `meta` envelope and
-      support standard pagination.
-    humanURL: https://quizapi.io/
-    baseURL: https://quizapi.io
-    tags:
-      - Quizzes
-      - Trivia
-      - Education
-    properties:
-      - type: Documentation
-        url: https://quizapi.io/docs
-      - type: OpenAPI
-        url: https://quizapi.io/api/v1/openapi.json
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/quiz-api/refs/heads/main/openapi/quiz-api-openapi.json
-      - type: Signup
-        url: https://quizapi.io/signup
-      - type: Authentication
-        url: https://quizapi.io/docs/authentication
-      - type: RateLimits
-        url: https://quizapi.io/docs/rate-limits
-      - type: Webhooks
-        url: https://quizapi.io/docs/webhooks
-      - type: SDKs
-        url: https://quizapi.io/docs/sdks
+- aid: quiz-api:quiz-api-discovery-api
+  name: QuizAPI Discovery API
+  description: Endpoints that require no authentication
+  humanURL: https://quizapi.io/
+  baseURL: https://quizapi.io
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/quiz-api-discovery-api-openapi.yml
+  - type: Documentation
+    url: https://quizapi.io/docs
+  - type: Signup
+    url: https://quizapi.io/signup
+  - type: Authentication
+    url: https://quizapi.io/docs/authentication
+  - type: RateLimits
+    url: https://quizapi.io/docs/rate-limits
+  - type: Webhooks
+    url: https://quizapi.io/docs/webhooks
+  - type: SDKs
+    url: https://quizapi.io/docs/sdks
+- aid: quiz-api:quiz-api-questions-api
+  name: QuizAPI Questions API
+  description: Retrieve questions for quizzes or browse across all quizzes
+  humanURL: https://quizapi.io/
+  baseURL: https://quizapi.io
+  tags:
+  - Questions
+  properties:
+  - type: OpenAPI
+    url: openapi/quiz-api-questions-api-openapi.yml
+  - type: Documentation
+    url: https://quizapi.io/docs
+  - type: Signup
+    url: https://quizapi.io/signup
+  - type: Authentication
+    url: https://quizapi.io/docs/authentication
+  - type: RateLimits
+    url: https://quizapi.io/docs/rate-limits
+  - type: Webhooks
+    url: https://quizapi.io/docs/webhooks
+  - type: SDKs
+    url: https://quizapi.io/docs/sdks
+- aid: quiz-api:quiz-api-quizzes-api
+  name: QuizAPI Quizzes API
+  description: Browse and search published quizzes
+  humanURL: https://quizapi.io/
+  baseURL: https://quizapi.io
+  tags:
+  - Quizzes
+  properties:
+  - type: OpenAPI
+    url: openapi/quiz-api-quizzes-api-openapi.yml
+  - type: Documentation
+    url: https://quizapi.io/docs
+  - type: Signup
+    url: https://quizapi.io/signup
+  - type: Authentication
+    url: https://quizapi.io/docs/authentication
+  - type: RateLimits
+    url: https://quizapi.io/docs/rate-limits
+  - type: Webhooks
+    url: https://quizapi.io/docs/webhooks
+  - type: SDKs
+    url: https://quizapi.io/docs/sdks
 common:
   - type: AgenticAccess
     url: agentic-access/quiz-api-agentic-access.yml
