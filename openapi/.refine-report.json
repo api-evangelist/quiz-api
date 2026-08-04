@@ -1,0 +1,18 @@
+{
+  "provider": "quiz-api",
+  "sources": [
+    "quiz-api-discovery-api-openapi.yml",
+    "quiz-api-questions-api-openapi.yml",
+    "quiz-api-quizzes-api-openapi.yml"
+  ],
+  "outputs": [
+    "quiz-api-discovery-api-openapi.yml",
+    "quiz-api-questions-api-openapi.yml",
+    "quiz-api-quizzes-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
