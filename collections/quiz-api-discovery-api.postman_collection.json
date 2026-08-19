@@ -1,0 +1,328 @@
+{
+  "item": [
+    {
+      "id": "da642ec9-1819-446f-8a62-89fc8bdbb158",
+      "name": "Discovery",
+      "description": {
+        "content": "Endpoints that require no authentication",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c1c472fc-4c9a-4c55-8064-41c350de20b1",
+          "name": "Get API metadata",
+          "request": {
+            "name": "Get API metadata",
+            "description": {
+              "content": "Returns available categories, tags, difficulties, question types, and aggregate stats. No API key required — this is a discovery endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "metadata"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "083547c5-372d-4f6b-aae4-40d3e5dcfc20",
+              "name": "Metadata retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"difficulties\": [\n      \"EASY\",\n      \"MEDIUM\",\n      \"HARD\",\n      \"EXPERT\"\n    ],\n    \"questionTypes\": [\n      \"MULTIPLE_CHOICE\",\n      \"TRUE_FALSE\",\n      \"OPEN_ENDED\"\n    ],\n    \"categories\": [\n      \"Programming\",\n      \"DevOps\",\n      \"Science\"\n    ],\n    \"tags\": [\n      \"javascript\",\n      \"python\",\n      \"docker\"\n    ],\n    \"stats\": {\n      \"totalQuizzes\": 150,\n      \"totalQuestions\": 3200\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e816752-c037-4d0c-a446-7077ff3db728",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12e34a28-503d-4f14-a145-d7051758a020",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "metadata"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "137b56ff-e9a7-4c04-a08f-576b3d7527e2",
+          "name": "List topics and categories",
+          "request": {
+            "name": "List topics and categories",
+            "description": {
+              "content": "Returns the full Topic → Category hierarchy with quiz counts and popular tags per category. Use the returned category `id` as the `categoryId` when creating quizzes. No API key required — this is a discovery endpoint.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "categories"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "19388c39-d1ac-4cd2-a448-701c9a3a5e27",
+              "name": "Categories retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": \"cm3topic123\",\n      \"name\": \"Programming\",\n      \"slug\": \"programming\",\n      \"icon\": \"code\",\n      \"categories\": [\n        {\n          \"id\": \"cm3cat789\",\n          \"name\": \"Python\",\n          \"slug\": \"python\",\n          \"quizCount\": 12,\n          \"tags\": [\n            \"python\",\n            \"basics\",\n            \"data-structures\"\n          ]\n        },\n        {\n          \"id\": \"cm3cat789\",\n          \"name\": \"Python\",\n          \"slug\": \"python\",\n          \"quizCount\": 12,\n          \"tags\": [\n            \"python\",\n            \"basics\",\n            \"data-structures\"\n          ]\n        }\n      ]\n    },\n    {\n      \"id\": \"cm3topic123\",\n      \"name\": \"Programming\",\n      \"slug\": \"programming\",\n      \"icon\": \"code\",\n      \"categories\": [\n        {\n          \"id\": \"cm3cat789\",\n          \"name\": \"Python\",\n          \"slug\": \"python\",\n          \"quizCount\": 12,\n          \"tags\": [\n            \"python\",\n            \"basics\",\n            \"data-structures\"\n          ]\n        },\n        {\n          \"id\": \"cm3cat789\",\n          \"name\": \"Python\",\n          \"slug\": \"python\",\n          \"quizCount\": 12,\n          \"tags\": [\n            \"python\",\n            \"basics\",\n            \"data-structures\"\n          ]\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ce14703d-cd00-414d-a40f-e522be7ec96d",
+              "name": "Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "52ae3157-ec87-43b0-8561-51f312a25850",
+              "name": "Internal server error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "categories"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": false,\n  \"error\": \"Something went wrong.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://quizapi.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "aaaef5c4-4927-4aec-9c5b-e169746a997a",
+    "name": "Quiz Discovery API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Access thousands of quiz questions across programming, science, and more. Browse by category, difficulty, and tags.\n\nContact Support:\n Name: QuizAPI Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quiz Discovery API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Discovery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get API metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quizapi.io/api/v1/metadata"
+          },
+          "docs": "Returns available categories, tags, difficulties, question types, and aggregate stats. No API key required — this is a discovery endpoint."
+        },
+        {
+          "info": {
+            "name": "List topics and categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quizapi.io/api/v1/categories"
+          },
+          "docs": "Returns the full Topic → Category hierarchy with quiz counts and popular tags per category. Use the returned category `id` as the `categoryId` when creating quizzes. No API key required — this is a discovery endpoint."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Quiz Discovery Questions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Questions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get questions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://quizapi.io/api/v1/questions",
+            "params": [
+              {
+                "name": "quiz_id",
+                "value": "",
+                "type": "query",
+                "description": "If provided, returns questions for this quiz (Mode 1). If omitted, enters browse mode (Mode 2)."
+              },
+              {
+                "name": "include_answers",
+                "value": "",
+                "type": "query",
+                "description": "Set to \"true\" to include answers (Mode 1 only). In browse mode, answers are always included."
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query",
+                "description": "Filter by quiz category. Supports comma-separated values for multiple categories (case-insensitive). Browse mode only."
+              },
+              {
+                "name": "difficulty",
+                "value": "",
+                "type": "query",
+                "description": "Filter by difficulty. Supports comma-separated values (case-insensitive). Browse mode only."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by question type. Supports comma-separated values. Browse mode only."
+              },
+              {
+                "name": "tags",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated tags to match (browse mode only)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max questions to return per page in browse mode (1–50)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of questions to skip for pagination (browse mode only)"
+              },
+              {
+                "name": "random",
+                "value": "",
+                "type": "query",
+                "description": "Set to \"true\" to shuffle the returned questions randomly (browse mode only)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Two modes: (1) Pass `quiz_id` to get ordered questions for a specific quiz. (2) Omit `quiz_id` to browse questions across all published quizzes with pagination, filtering, and optional randomization. Only approved quizzes and your own quizzes are included."
+        },
+        {
+          "info": {
+            "name": "Batch import questions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://quizapi.io/api/v1/quizzes/:id/questions/batch",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The quiz ID to add questions to"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Import multiple questions into an existing quiz at once. Validates all questions before inserting — if any fail validation, the entire batch is rejected. Questions are appended after existing questions. **Requires a paid plan (Starter or Pro) or admin role.**"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

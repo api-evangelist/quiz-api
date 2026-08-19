@@ -1,0 +1,87 @@
+# QuizAPI
+
+> QuizAPI is a developer-first quiz platform with a REST API for creating, sharing, and embedding quizzes. Features include AI-powered quiz generation, leaderboards, gamification, live multiplayer quizzes, and embeddable widgets.
+
+## Main Pages
+
+- [Homepage](https://quizapi.io/)
+- [Practice Quizzes](https://quizapi.io/practice)
+- [Quiz Categories](https://quizapi.io/categories)
+- [Live Quiz Mode](https://quizapi.io/live)
+- [Quiz Templates](https://quizapi.io/templates)
+
+## Documentation
+
+- [API Docs](https://quizapi.io/docs)
+- [Authentication](https://quizapi.io/docs/authentication)
+- [Quizzes API](https://quizapi.io/docs/quizzes)
+- [Questions API](https://quizapi.io/docs/questions)
+- [Embeds](https://quizapi.io/docs/embeds)
+- [Webhooks](https://quizapi.io/docs/webhooks)
+- [Rate Limits](https://quizapi.io/docs/rate-limits)
+- [SDKs](https://quizapi.io/docs/sdks)
+
+## Use Cases
+
+- [Education](https://quizapi.io/use-cases/education)
+- [Hiring & Assessment](https://quizapi.io/use-cases/hiring)
+- [Employee Onboarding](https://quizapi.io/use-cases/onboarding)
+- [Documentation Testing](https://quizapi.io/use-cases/documentation)
+
+## Comparisons
+
+- [QuizAPI vs Google Forms](https://quizapi.io/compare/quizapi-vs-google-forms)
+- [QuizAPI vs Kahoot](https://quizapi.io/compare/quizapi-vs-kahoot)
+- [QuizAPI vs Mentimeter](https://quizapi.io/compare/quizapi-vs-mentimeter)
+- [QuizAPI vs Open Trivia Database](https://quizapi.io/compare/quizapi-vs-open-trivia-db)
+- [QuizAPI vs ProProfs Quiz Maker](https://quizapi.io/compare/quizapi-vs-proprofs)
+- [QuizAPI vs Quiz API by API Ninjas](https://quizapi.io/compare/quizapi-vs-api-ninjas)
+- [QuizAPI vs Quizizz](https://quizapi.io/compare/quizapi-vs-quizizz)
+- [QuizAPI vs Quizlet](https://quizapi.io/compare/quizapi-vs-quizlet)
+- [QuizAPI vs SurveyMonkey](https://quizapi.io/compare/quizapi-vs-surveymonkey)
+- [QuizAPI vs Typeform](https://quizapi.io/compare/quizapi-vs-typeform)
+
+## Templates
+
+- [AWS Certification Prep](https://quizapi.io/templates/aws-certification)
+- [DevOps Essentials](https://quizapi.io/templates/devops-essentials)
+- [Docker Fundamentals](https://quizapi.io/templates/docker-basics)
+- [Git Commands and Workflows](https://quizapi.io/templates/git-workflow)
+- [JavaScript Interview Questions](https://quizapi.io/templates/javascript-interview)
+- [Python Fundamentals](https://quizapi.io/templates/python-fundamentals)
+- [React Hooks Deep Dive](https://quizapi.io/templates/react-hooks)
+- [SQL Query Challenges](https://quizapi.io/templates/sql-queries)
+
+## Blog
+
+- [How to Build a Quiz App with Django and QuizAPI](https://quizapi.io/blog/build-quiz-app-django-quizapi)
+- [Building a Quiz Component in React with QuizAPI](https://quizapi.io/blog/build-quiz-component-react-quizapi)
+- [Building a Quiz Import/Export System](https://quizapi.io/blog/building-quiz-import-export-system)
+- [Building a Quiz Leaderboard with Real-Time Updates](https://quizapi.io/blog/building-quiz-leaderboard-real-time)
+- [Deploying QuizAPI on DigitalOcean: A Production Setup Guide](https://quizapi.io/blog/deploy-quizapi-digitalocean)
+- [How to Create Engaging Quiz Questions: A Content Creator's Guide](https://quizapi.io/blog/how-to-create-engaging-quiz-questions)
+- [How We Built AI-Powered Quiz Generation](https://quizapi.io/blog/how-we-built-ai-quiz-generation)
+- [Add Quizzes to Your Laravel App with QuizAPI](https://quizapi.io/blog/laravel-quiz-app-quizapi)
+- [Monitoring Quiz API Performance with Prometheus and Grafana](https://quizapi.io/blog/monitoring-quiz-api-prometheus-grafana)
+- [QuizAPI + Next.js: Server-Side Quiz Rendering](https://quizapi.io/blog/nextjs-server-side-quiz-rendering)
+- [Quiz Accessibility: Making Your Quizzes WCAG Compliant](https://quizapi.io/blog/quiz-accessibility-wcag-compliance)
+- [Quiz Gamification: XP, Streaks, and Badges That Actually Work](https://quizapi.io/blog/quiz-gamification-xp-streaks-badges)
+- [Using QuizAPI Webhooks to Track Student Progress](https://quizapi.io/blog/quizapi-webhooks-student-progress)
+- [Rate Limiting Your Quiz API: A Practical Guide](https://quizapi.io/blog/rate-limiting-quiz-api-guide)
+- [Scaling Quiz Delivery: From 100 to 100,000 Concurrent Players](https://quizapi.io/blog/scaling-quiz-delivery-100k-players)
+- [Testing Your Quiz API: Unit, Integration, and E2E Strategies](https://quizapi.io/blog/testing-quiz-api-strategies)
+- [Vue.js Quiz Widget with QuizAPI](https://quizapi.io/blog/vuejs-quiz-widget-quizapi)
+- [Building Quiz APIs with Next.js: A Complete Guide](https://quizapi.io/blog/building-quiz-apis-with-nextjs)
+- [How Gamification Transforms Online Learning](https://quizapi.io/blog/gamification-in-education)
+- [Embed Interactive Quizzes in Any Website in Under 5 Minutes](https://quizapi.io/blog/embed-quizzes-in-your-website)
+
+## API Overview
+
+QuizAPI provides a REST API for programmatic quiz management:
+- Create and manage quizzes via API
+- Fetch questions with filtering by category, difficulty, and tags
+- Embed quizzes in any website with an iframe widget
+- Track scores and leaderboard entries
+- Generate quizzes with AI from any topic
+
+For full API documentation, visit https://quizapi.io/docs
