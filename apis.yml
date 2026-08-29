@@ -6,6 +6,18 @@ description: >-
   platforms, and embedded quizzes on their own websites. Questions can be filtered by category, difficulty, and tags,
   and quizzes can be created and managed through a JSON REST API.
 type: Index
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
