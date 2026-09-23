@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
   title: Quiz Discovery API
   version: 1.0.0
@@ -39,6 +39,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getApiV1Metadata
+      x-operation-id-source: derived
   /api/v1/categories:
     get:
       summary: List topics and categories
@@ -64,50 +66,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getApiV1Categories
+      x-operation-id-source: derived
 components:
   schemas:
-    CategoriesResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TopicItem'
-      required:
-      - success
-      - data
-    TopicItem:
-      type: object
-      properties:
-        id:
-          type: string
-          example: cm3topic123
-        name:
-          type: string
-          example: Programming
-        slug:
-          type: string
-          example: programming
-        icon:
-          type:
-          - string
-          - 'null'
-          example: code
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryItem'
-      required:
-      - id
-      - name
-      - slug
-      - icon
-      - categories
-      description: A top-level topic containing categories
     MetadataResponse:
       type: object
       properties:
@@ -172,6 +134,27 @@ components:
       required:
       - success
       - data
+    QuestionType:
+      type: string
+      enum:
+      - MULTIPLE_CHOICE
+      - TRUE_FALSE
+      - OPEN_ENDED
+      description: The type of question
+    CategoriesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopicItem'
+      required:
+      - success
+      - data
     ErrorResponse:
       type: object
       properties:
@@ -226,13 +209,34 @@ components:
       - HARD
       - EXPERT
       description: Difficulty level of a quiz or question
-    QuestionType:
-      type: string
-      enum:
-      - MULTIPLE_CHOICE
-      - TRUE_FALSE
-      - OPEN_ENDED
-      description: The type of question
+    TopicItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3topic123
+        name:
+          type: string
+          example: Programming
+        slug:
+          type: string
+          example: programming
+        icon:
+          type:
+          - string
+          - 'null'
+          example: code
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryItem'
+      required:
+      - id
+      - name
+      - slug
+      - icon
+      - categories
+      description: A top-level topic containing categories
   securitySchemes:
     BearerAuth:
       type: http

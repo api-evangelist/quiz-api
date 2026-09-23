@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Quiz Discovery Quizzes API
+  title: Quizzes API
   version: 1.0.0
   description: Access thousands of quiz questions across programming, science, and more. Browse by category, difficulty, and tags.
   contact:
@@ -146,6 +146,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getApiV1Quizzes
+      x-operation-id-source: derived
     post:
       summary: Create a quiz
       description: 'Create a new quiz. Requires a Starter or Pro plan (admins are exempt). Quiz creation limits are enforced per plan. Admins can set `featured: true` to display the quiz in the Practice section immediately. Non-admin users can add `featured` in the body but it will be silently ignored.'
@@ -212,6 +214,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postApiV1Quizzes
+      x-operation-id-source: derived
   /api/v1/quizzes/{id}:
     get:
       summary: Get a single quiz
@@ -270,224 +274,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getApiV1QuizzesById
+      x-operation-id-source: derived
 components:
   schemas:
-    QuizDetail:
-      type: object
-      properties:
-        id:
-          type: string
-          example: cm3abc123def456
-        title:
-          type: string
-          example: JavaScript Fundamentals
-        description:
-          type: string
-          example: Test your JS knowledge
-        category:
-          type: string
-          example: Programming
-        difficulty:
-          $ref: '#/components/schemas/Difficulty'
-        tags:
-          type: array
-          items:
-            type: string
-          example:
-          - javascript
-          - web
-        questionCount:
-          type: integer
-          example: 10
-        plays:
-          type: integer
-          example: 1250
-        slug:
-          type: string
-          example: javascript-fundamentals
-        questions:
-          type: array
-          items:
-            $ref: '#/components/schemas/QuizQuestionDetail'
-      required:
-      - id
-      - title
-      - description
-      - category
-      - difficulty
-      - tags
-      - questionCount
-      - plays
-      - slug
-      - questions
-      description: Full quiz details including questions and answers
-    ErrorResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          type: string
-          example: Something went wrong.
-      required:
-      - success
-      - error
-      description: Standard error response
-    QuizListItem:
-      type: object
-      properties:
-        id:
-          type: string
-          example: cm3abc123def456
-        title:
-          type: string
-          example: JavaScript Fundamentals
-        description:
-          type: string
-          example: Test your JS knowledge
-        category:
-          type: string
-          example: Programming
-        difficulty:
-          $ref: '#/components/schemas/Difficulty'
-        tags:
-          type: array
-          items:
-            type: string
-          example:
-          - javascript
-          - web
-        questionCount:
-          type: integer
-          example: 10
-        plays:
-          type: integer
-          example: 1250
-        slug:
-          type: string
-          example: javascript-fundamentals
-      required:
-      - id
-      - title
-      - description
-      - category
-      - difficulty
-      - tags
-      - questionCount
-      - plays
-      - slug
-      description: A quiz summary returned in list endpoints
-    CreateQuizRequest:
-      type: object
-      properties:
-        title:
-          type: string
-          minLength: 1
-          maxLength: 200
-          example: Python Basics
-        description:
-          type: string
-          maxLength: 2000
-          example: Learn Python fundamentals.
-        category:
-          type: string
-          maxLength: 100
-          example: Programming
-        categoryId:
-          type: string
-          description: Category ID (preferred over flat category string)
-          example: cat_python
-        difficulty:
-          $ref: '#/components/schemas/Difficulty'
-        tags:
-          type: array
-          items:
-            type: string
-            maxLength: 50
-          maxItems: 20
-          example:
-          - python
-          - basics
-        published:
-          type: boolean
-          default: false
-          description: Whether the quiz is publicly visible
-        featured:
-          type: boolean
-          default: false
-          description: Admin-only. Mark as featured in the Practice section. Ignored for non-admin users.
-      required:
-      - title
-      - difficulty
-      description: Request body for creating a quiz via the API
-    QuizQuestionDetail:
-      type: object
-      properties:
-        id:
-          type: string
-          example: cm3xyz789ghi012
-        text:
-          type: string
-          example: What is the typeof null in JavaScript?
-        type:
-          $ref: '#/components/schemas/QuestionType'
-        difficulty:
-          $ref: '#/components/schemas/Difficulty'
-        explanation:
-          type:
-          - string
-          - 'null'
-          example: typeof null returns 'object' due to a legacy bug in JavaScript.
-        order:
-          type: integer
-          example: 1
-        answers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Answer'
-      required:
-      - id
-      - text
-      - type
-      - difficulty
-      - explanation
-      - order
-      - answers
-      description: A question with answers, returned within a quiz detail
-    Answer:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ans_abc123
-        text:
-          type: string
-          example: '42'
-        isCorrect:
-          type: boolean
-          example: true
-      required:
-      - id
-      - text
-      - isCorrect
-      description: An answer option for a question
-    Difficulty:
-      type: string
-      enum:
-      - EASY
-      - MEDIUM
-      - HARD
-      - EXPERT
-      description: Difficulty level of a quiz or question
-    QuestionType:
-      type: string
-      enum:
-      - MULTIPLE_CHOICE
-      - TRUE_FALSE
-      - OPEN_ENDED
-      description: The type of question
     CreatedQuiz:
       type: object
       properties:
@@ -538,6 +328,222 @@ components:
       - published
       - featured
       description: A newly created quiz
+    QuizDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3abc123def456
+        title:
+          type: string
+          example: JavaScript Fundamentals
+        description:
+          type: string
+          example: Test your JS knowledge
+        category:
+          type: string
+          example: Programming
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        tags:
+          type: array
+          items:
+            type: string
+          example:
+          - javascript
+          - web
+        questionCount:
+          type: integer
+          example: 10
+        plays:
+          type: integer
+          example: 1250
+        slug:
+          type: string
+          example: javascript-fundamentals
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuizQuestionDetail'
+      required:
+      - id
+      - title
+      - description
+      - category
+      - difficulty
+      - tags
+      - questionCount
+      - plays
+      - slug
+      - questions
+      description: Full quiz details including questions and answers
+    QuestionType:
+      type: string
+      enum:
+      - MULTIPLE_CHOICE
+      - TRUE_FALSE
+      - OPEN_ENDED
+      description: The type of question
+    QuizListItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3abc123def456
+        title:
+          type: string
+          example: JavaScript Fundamentals
+        description:
+          type: string
+          example: Test your JS knowledge
+        category:
+          type: string
+          example: Programming
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        tags:
+          type: array
+          items:
+            type: string
+          example:
+          - javascript
+          - web
+        questionCount:
+          type: integer
+          example: 10
+        plays:
+          type: integer
+          example: 1250
+        slug:
+          type: string
+          example: javascript-fundamentals
+      required:
+      - id
+      - title
+      - description
+      - category
+      - difficulty
+      - tags
+      - questionCount
+      - plays
+      - slug
+      description: A quiz summary returned in list endpoints
+    QuizQuestionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3xyz789ghi012
+        text:
+          type: string
+          example: What is the typeof null in JavaScript?
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        explanation:
+          type:
+          - string
+          - 'null'
+          example: typeof null returns 'object' due to a legacy bug in JavaScript.
+        order:
+          type: integer
+          example: 1
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+      required:
+      - id
+      - text
+      - type
+      - difficulty
+      - explanation
+      - order
+      - answers
+      description: A question with answers, returned within a quiz detail
+    CreateQuizRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+          example: Python Basics
+        description:
+          type: string
+          maxLength: 2000
+          example: Learn Python fundamentals.
+        category:
+          type: string
+          maxLength: 100
+          example: Programming
+        categoryId:
+          type: string
+          description: Category ID (preferred over flat category string)
+          example: cat_python
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        tags:
+          type: array
+          items:
+            type: string
+            maxLength: 50
+          maxItems: 20
+          example:
+          - python
+          - basics
+        published:
+          type: boolean
+          default: false
+          description: Whether the quiz is publicly visible
+        featured:
+          type: boolean
+          default: false
+          description: Admin-only. Mark as featured in the Practice section. Ignored for non-admin users.
+      required:
+      - title
+      - difficulty
+      description: Request body for creating a quiz via the API
+    Answer:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ans_abc123
+        text:
+          type: string
+          example: '42'
+        isCorrect:
+          type: boolean
+          example: true
+      required:
+      - id
+      - text
+      - isCorrect
+      description: An answer option for a question
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          type: string
+          example: Something went wrong.
+      required:
+      - success
+      - error
+      description: Standard error response
+    Difficulty:
+      type: string
+      enum:
+      - EASY
+      - MEDIUM
+      - HARD
+      - EXPERT
+      description: Difficulty level of a quiz or question
   securitySchemes:
     BearerAuth:
       type: http
