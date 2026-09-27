@@ -50,7 +50,6 @@ apis:
   name: QuizAPI Discovery API
   description: Endpoints that require no authentication
   humanURL: https://quizapi.io/
-  baseURL: https://quizapi.io
   tags:
   - Discovery
   properties:
@@ -72,7 +71,6 @@ apis:
   name: QuizAPI Questions API
   description: Retrieve questions for quizzes or browse across all quizzes
   humanURL: https://quizapi.io/
-  baseURL: https://quizapi.io
   tags:
   - Questions
   properties:
@@ -94,7 +92,6 @@ apis:
   name: QuizAPI Quizzes API
   description: Browse and search published quizzes
   humanURL: https://quizapi.io/
-  baseURL: https://quizapi.io
   tags:
   - Quizzes
   properties:
