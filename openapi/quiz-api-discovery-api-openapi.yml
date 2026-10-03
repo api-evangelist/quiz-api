@@ -70,56 +70,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CategoriesResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TopicItem'
-      required:
-      - success
-      - data
-    Difficulty:
-      type: string
-      enum:
-      - EASY
-      - MEDIUM
-      - HARD
-      - EXPERT
-      description: Difficulty level of a quiz or question
-    TopicItem:
-      type: object
-      properties:
-        id:
-          type: string
-          example: cm3topic123
-        name:
-          type: string
-          example: Programming
-        slug:
-          type: string
-          example: programming
-        icon:
-          type:
-          - string
-          - 'null'
-          example: code
-        categories:
-          type: array
-          items:
-            $ref: '#/components/schemas/CategoryItem'
-      required:
-      - id
-      - name
-      - slug
-      - icon
-      - categories
-      description: A top-level topic containing categories
     MetadataResponse:
       type: object
       properties:
@@ -198,13 +148,14 @@ components:
       - success
       - error
       description: Standard error response
-    QuestionType:
+    Difficulty:
       type: string
       enum:
-      - MULTIPLE_CHOICE
-      - TRUE_FALSE
-      - OPEN_ENDED
-      description: The type of question
+      - EASY
+      - MEDIUM
+      - HARD
+      - EXPERT
+      description: Difficulty level of a quiz or question
     CategoryItem:
       type: object
       properties:
@@ -237,6 +188,55 @@ components:
       - quizCount
       - tags
       description: A category within a topic
+    TopicItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3topic123
+        name:
+          type: string
+          example: Programming
+        slug:
+          type: string
+          example: programming
+        icon:
+          type:
+          - string
+          - 'null'
+          example: code
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryItem'
+      required:
+      - id
+      - name
+      - slug
+      - icon
+      - categories
+      description: A top-level topic containing categories
+    CategoriesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopicItem'
+      required:
+      - success
+      - data
+    QuestionType:
+      type: string
+      enum:
+      - MULTIPLE_CHOICE
+      - TRUE_FALSE
+      - OPEN_ENDED
+      description: The type of question
   securitySchemes:
     BearerAuth:
       type: http
