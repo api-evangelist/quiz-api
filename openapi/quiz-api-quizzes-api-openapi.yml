@@ -278,86 +278,40 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Answer:
+    QuizQuestionDetail:
       type: object
       properties:
         id:
           type: string
-          example: ans_abc123
+          example: cm3xyz789ghi012
         text:
           type: string
-          example: '42'
-        isCorrect:
-          type: boolean
-          example: true
+          example: What is the typeof null in JavaScript?
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        explanation:
+          type:
+          - string
+          - 'null'
+          example: typeof null returns 'object' due to a legacy bug in JavaScript.
+        order:
+          type: integer
+          example: 1
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
       required:
       - id
       - text
-      - isCorrect
-      description: An answer option for a question
-    QuizDetail:
-      type: object
-      properties:
-        id:
-          type: string
-          example: cm3abc123def456
-        title:
-          type: string
-          example: JavaScript Fundamentals
-        description:
-          type: string
-          example: Test your JS knowledge
-        category:
-          type: string
-          example: Programming
-        difficulty:
-          $ref: '#/components/schemas/Difficulty'
-        tags:
-          type: array
-          items:
-            type: string
-          example:
-          - javascript
-          - web
-        questionCount:
-          type: integer
-          example: 10
-        plays:
-          type: integer
-          example: 1250
-        slug:
-          type: string
-          example: javascript-fundamentals
-        questions:
-          type: array
-          items:
-            $ref: '#/components/schemas/QuizQuestionDetail'
-      required:
-      - id
-      - title
-      - description
-      - category
+      - type
       - difficulty
-      - tags
-      - questionCount
-      - plays
-      - slug
-      - questions
-      description: Full quiz details including questions and answers
-    ErrorResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          type: string
-          example: Something went wrong.
-      required:
-      - success
-      - error
-      description: Standard error response
+      - explanation
+      - order
+      - answers
+      description: A question with answers, returned within a quiz detail
     CreatedQuiz:
       type: object
       properties:
@@ -451,6 +405,44 @@ components:
       - title
       - difficulty
       description: Request body for creating a quiz via the API
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - false
+        error:
+          type: string
+          example: Something went wrong.
+      required:
+      - success
+      - error
+      description: Standard error response
+    QuestionType:
+      type: string
+      enum:
+      - MULTIPLE_CHOICE
+      - TRUE_FALSE
+      - OPEN_ENDED
+      description: The type of question
+    Answer:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ans_abc123
+        text:
+          type: string
+          example: '42'
+        isCorrect:
+          type: boolean
+          example: true
+      required:
+      - id
+      - text
+      - isCorrect
+      description: An answer option for a question
     QuizListItem:
       type: object
       properties:
@@ -495,40 +487,6 @@ components:
       - plays
       - slug
       description: A quiz summary returned in list endpoints
-    QuizQuestionDetail:
-      type: object
-      properties:
-        id:
-          type: string
-          example: cm3xyz789ghi012
-        text:
-          type: string
-          example: What is the typeof null in JavaScript?
-        type:
-          $ref: '#/components/schemas/QuestionType'
-        difficulty:
-          $ref: '#/components/schemas/Difficulty'
-        explanation:
-          type:
-          - string
-          - 'null'
-          example: typeof null returns 'object' due to a legacy bug in JavaScript.
-        order:
-          type: integer
-          example: 1
-        answers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Answer'
-      required:
-      - id
-      - text
-      - type
-      - difficulty
-      - explanation
-      - order
-      - answers
-      description: A question with answers, returned within a quiz detail
     Difficulty:
       type: string
       enum:
@@ -537,13 +495,55 @@ components:
       - HARD
       - EXPERT
       description: Difficulty level of a quiz or question
-    QuestionType:
-      type: string
-      enum:
-      - MULTIPLE_CHOICE
-      - TRUE_FALSE
-      - OPEN_ENDED
-      description: The type of question
+    QuizDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3abc123def456
+        title:
+          type: string
+          example: JavaScript Fundamentals
+        description:
+          type: string
+          example: Test your JS knowledge
+        category:
+          type: string
+          example: Programming
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        tags:
+          type: array
+          items:
+            type: string
+          example:
+          - javascript
+          - web
+        questionCount:
+          type: integer
+          example: 10
+        plays:
+          type: integer
+          example: 1250
+        slug:
+          type: string
+          example: javascript-fundamentals
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuizQuestionDetail'
+      required:
+      - id
+      - title
+      - description
+      - category
+      - difficulty
+      - tags
+      - questionCount
+      - plays
+      - slug
+      - questions
+      description: Full quiz details including questions and answers
   securitySchemes:
     BearerAuth:
       type: http

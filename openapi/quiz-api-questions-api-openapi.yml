@@ -273,6 +273,40 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    QuizQuestionDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3xyz789ghi012
+        text:
+          type: string
+          example: What is the typeof null in JavaScript?
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        explanation:
+          type:
+          - string
+          - 'null'
+          example: typeof null returns 'object' due to a legacy bug in JavaScript.
+        order:
+          type: integer
+          example: 1
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+      required:
+      - id
+      - text
+      - type
+      - difficulty
+      - explanation
+      - order
+      - answers
+      description: A question with answers, returned within a quiz detail
     QuizQuestion:
       type: object
       properties:
@@ -314,72 +348,6 @@ components:
       - explanation
       - category
       description: A question belonging to a specific quiz (returned with quiz_id mode)
-    BatchQuestionInput:
-      type: object
-      properties:
-        text:
-          type: string
-          example: What is the typeof null in JavaScript?
-        type:
-          $ref: '#/components/schemas/QuestionType'
-        difficulty:
-          $ref: '#/components/schemas/Difficulty'
-        explanation:
-          type: string
-          example: typeof null returns 'object' due to a legacy bug in JavaScript.
-        answers:
-          type: array
-          items:
-            type: object
-            properties:
-              text:
-                type: string
-                example: object
-              isCorrect:
-                type: boolean
-                example: true
-            required:
-            - text
-            - isCorrect
-          minItems: 2
-          description: At least 2 answers required. TRUE_FALSE must have exactly 2.
-      required:
-      - text
-      - type
-      - difficulty
-      - answers
-      description: A question to create in the batch
-    Answer:
-      type: object
-      properties:
-        id:
-          type: string
-          example: ans_abc123
-        text:
-          type: string
-          example: '42'
-        isCorrect:
-          type: boolean
-          example: true
-      required:
-      - id
-      - text
-      - isCorrect
-      description: An answer option for a question
-    ErrorResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          enum:
-          - false
-        error:
-          type: string
-          example: Something went wrong.
-      required:
-      - success
-      - error
-      description: Standard error response
     PaginationMeta:
       type: object
       properties:
@@ -418,76 +386,20 @@ components:
       - offset
       - links
       description: Pagination metadata included in browse responses
-    QuizQuestionDetail:
-      type: object
-      properties:
-        id:
-          type: string
-          example: cm3xyz789ghi012
-        text:
-          type: string
-          example: What is the typeof null in JavaScript?
-        type:
-          $ref: '#/components/schemas/QuestionType'
-        difficulty:
-          $ref: '#/components/schemas/Difficulty'
-        explanation:
-          type:
-          - string
-          - 'null'
-          example: typeof null returns 'object' due to a legacy bug in JavaScript.
-        order:
-          type: integer
-          example: 1
-        answers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Answer'
-      required:
-      - id
-      - text
-      - type
-      - difficulty
-      - explanation
-      - order
-      - answers
-      description: A question with answers, returned within a quiz detail
-    Difficulty:
-      type: string
-      enum:
-      - EASY
-      - MEDIUM
-      - HARD
-      - EXPERT
-      description: Difficulty level of a quiz or question
-    BatchImportResponse:
+    ErrorResponse:
       type: object
       properties:
         success:
           type: boolean
           enum:
-          - true
-        data:
-          type: object
-          properties:
-            quizId:
-              type: string
-              example: cm3abc123def456
-            questionsCreated:
-              type: integer
-              example: 5
-            questions:
-              type: array
-              items:
-                $ref: '#/components/schemas/QuizQuestionDetail'
-          required:
-          - quizId
-          - questionsCreated
-          - questions
+          - false
+        error:
+          type: string
+          example: Something went wrong.
       required:
       - success
-      - data
-      description: Successful batch import response
+      - error
+      description: Standard error response
     BrowseQuestion:
       type: object
       properties:
@@ -540,6 +452,41 @@ components:
       - quizTitle
       - answers
       description: A question with quiz context (returned in browse mode)
+    BatchQuestionInput:
+      type: object
+      properties:
+        text:
+          type: string
+          example: What is the typeof null in JavaScript?
+        type:
+          $ref: '#/components/schemas/QuestionType'
+        difficulty:
+          $ref: '#/components/schemas/Difficulty'
+        explanation:
+          type: string
+          example: typeof null returns 'object' due to a legacy bug in JavaScript.
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              text:
+                type: string
+                example: object
+              isCorrect:
+                type: boolean
+                example: true
+            required:
+            - text
+            - isCorrect
+          minItems: 2
+          description: At least 2 answers required. TRUE_FALSE must have exactly 2.
+      required:
+      - text
+      - type
+      - difficulty
+      - answers
+      description: A question to create in the batch
     QuestionType:
       type: string
       enum:
@@ -547,6 +494,34 @@ components:
       - TRUE_FALSE
       - OPEN_ENDED
       description: The type of question
+    BatchImportResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: object
+          properties:
+            quizId:
+              type: string
+              example: cm3abc123def456
+            questionsCreated:
+              type: integer
+              example: 5
+            questions:
+              type: array
+              items:
+                $ref: '#/components/schemas/QuizQuestionDetail'
+          required:
+          - quizId
+          - questionsCreated
+          - questions
+      required:
+      - success
+      - data
+      description: Successful batch import response
     PaginationLinks:
       type: object
       properties:
@@ -572,6 +547,31 @@ components:
       - next
       - prev
       description: Navigation links for pagination
+    Answer:
+      type: object
+      properties:
+        id:
+          type: string
+          example: ans_abc123
+        text:
+          type: string
+          example: '42'
+        isCorrect:
+          type: boolean
+          example: true
+      required:
+      - id
+      - text
+      - isCorrect
+      description: An answer option for a question
+    Difficulty:
+      type: string
+      enum:
+      - EASY
+      - MEDIUM
+      - HARD
+      - EXPERT
+      description: Difficulty level of a quiz or question
   securitySchemes:
     BearerAuth:
       type: http

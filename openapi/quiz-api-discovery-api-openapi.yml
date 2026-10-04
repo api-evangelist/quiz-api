@@ -70,6 +70,52 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CategoryItem:
+      type: object
+      properties:
+        id:
+          type: string
+          example: cm3cat789
+        name:
+          type: string
+          example: Python
+        slug:
+          type: string
+          example: python
+        quizCount:
+          type: integer
+          example: 12
+        tags:
+          type: array
+          items:
+            type: string
+          maxItems: 20
+          example:
+          - python
+          - basics
+          - data-structures
+          description: Popular tags used in quizzes within this category (maximum 20 tags)
+      required:
+      - id
+      - name
+      - slug
+      - quizCount
+      - tags
+      description: A category within a topic
+    CategoriesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopicItem'
+      required:
+      - success
+      - data
     MetadataResponse:
       type: object
       properties:
@@ -148,46 +194,13 @@ components:
       - success
       - error
       description: Standard error response
-    Difficulty:
+    QuestionType:
       type: string
       enum:
-      - EASY
-      - MEDIUM
-      - HARD
-      - EXPERT
-      description: Difficulty level of a quiz or question
-    CategoryItem:
-      type: object
-      properties:
-        id:
-          type: string
-          example: cm3cat789
-        name:
-          type: string
-          example: Python
-        slug:
-          type: string
-          example: python
-        quizCount:
-          type: integer
-          example: 12
-        tags:
-          type: array
-          items:
-            type: string
-          maxItems: 20
-          example:
-          - python
-          - basics
-          - data-structures
-          description: Popular tags used in quizzes within this category (maximum 20 tags)
-      required:
-      - id
-      - name
-      - slug
-      - quizCount
-      - tags
-      description: A category within a topic
+      - MULTIPLE_CHOICE
+      - TRUE_FALSE
+      - OPEN_ENDED
+      description: The type of question
     TopicItem:
       type: object
       properties:
@@ -216,27 +229,14 @@ components:
       - icon
       - categories
       description: A top-level topic containing categories
-    CategoriesResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TopicItem'
-      required:
-      - success
-      - data
-    QuestionType:
+    Difficulty:
       type: string
       enum:
-      - MULTIPLE_CHOICE
-      - TRUE_FALSE
-      - OPEN_ENDED
-      description: The type of question
+      - EASY
+      - MEDIUM
+      - HARD
+      - EXPERT
+      description: Difficulty level of a quiz or question
   securitySchemes:
     BearerAuth:
       type: http
