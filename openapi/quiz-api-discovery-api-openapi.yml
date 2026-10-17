@@ -70,52 +70,49 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CategoryItem:
+    QuestionType:
+      type: string
+      enum:
+      - MULTIPLE_CHOICE
+      - TRUE_FALSE
+      - OPEN_ENDED
+      description: The type of question
+    TopicItem:
       type: object
       properties:
         id:
           type: string
-          example: cm3cat789
+          example: cm3topic123
         name:
           type: string
-          example: Python
+          example: Programming
         slug:
           type: string
-          example: python
-        quizCount:
-          type: integer
-          example: 12
-        tags:
+          example: programming
+        icon:
+          type:
+          - string
+          - 'null'
+          example: code
+        categories:
           type: array
           items:
-            type: string
-          maxItems: 20
-          example:
-          - python
-          - basics
-          - data-structures
-          description: Popular tags used in quizzes within this category (maximum 20 tags)
+            $ref: '#/components/schemas/CategoryItem'
       required:
       - id
       - name
       - slug
-      - quizCount
-      - tags
-      description: A category within a topic
-    CategoriesResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          enum:
-          - true
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TopicItem'
-      required:
-      - success
-      - data
+      - icon
+      - categories
+      description: A top-level topic containing categories
+    Difficulty:
+      type: string
+      enum:
+      - EASY
+      - MEDIUM
+      - HARD
+      - EXPERT
+      description: Difficulty level of a quiz or question
     MetadataResponse:
       type: object
       properties:
@@ -180,6 +177,20 @@ components:
       required:
       - success
       - data
+    CategoriesResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          enum:
+          - true
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopicItem'
+      required:
+      - success
+      - data
     ErrorResponse:
       type: object
       properties:
@@ -194,49 +205,38 @@ components:
       - success
       - error
       description: Standard error response
-    QuestionType:
-      type: string
-      enum:
-      - MULTIPLE_CHOICE
-      - TRUE_FALSE
-      - OPEN_ENDED
-      description: The type of question
-    TopicItem:
+    CategoryItem:
       type: object
       properties:
         id:
           type: string
-          example: cm3topic123
+          example: cm3cat789
         name:
           type: string
-          example: Programming
+          example: Python
         slug:
           type: string
-          example: programming
-        icon:
-          type:
-          - string
-          - 'null'
-          example: code
-        categories:
+          example: python
+        quizCount:
+          type: integer
+          example: 12
+        tags:
           type: array
           items:
-            $ref: '#/components/schemas/CategoryItem'
+            type: string
+          maxItems: 20
+          example:
+          - python
+          - basics
+          - data-structures
+          description: Popular tags used in quizzes within this category (maximum 20 tags)
       required:
       - id
       - name
       - slug
-      - icon
-      - categories
-      description: A top-level topic containing categories
-    Difficulty:
-      type: string
-      enum:
-      - EASY
-      - MEDIUM
-      - HARD
-      - EXPERT
-      description: Difficulty level of a quiz or question
+      - quizCount
+      - tags
+      description: A category within a topic
   securitySchemes:
     BearerAuth:
       type: http
