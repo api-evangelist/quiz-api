@@ -549,3 +549,9 @@ components:
       type: http
       scheme: bearer
       description: 'Pass your API key as a Bearer token: `Authorization: Bearer qza_live_...`. Alternatively, use the `api_key` query parameter.'
+x-provenance:
+  method: harvested
+  publisher: QuizAPI
+  source: https://quizapi.io/api/v1/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
